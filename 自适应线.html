@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>纯css自适应高度时间线</title>
+<style type="text/css">
+*{
+    padding: 0;margin: 0;font-family: Arial;
+}
+ul,li{
+    list-style: none;
+}
+.line-year{
+    position: absolute;color: #189cfb;font-size: 20px;
+    left: -50px;top: 50%;transform: translateY(-4px);
+}
+
+#list {
+    margin: 0 4px 0;
+    margin-left: 100px;
+}
+
+#list>li{
+    position: relative;
+    padding-left: 40px;
+    padding-top: 4px;
+}
+
+#list img {
+    height: 80px;margin-top: 5px;
+}
+/*左侧边线*/
+
+#list>li:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    left: 19px;
+    z-index: 1;
+}
+
+#list>li:first-child:before {
+    height: 50%;
+    top: 50%;
+}
+
+#list>li:last-child:before {
+    height: 50%;
+}
+/*小灰点*/
+
+#list>li:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background-color: #aaa;
+    border-radius: 50%;
+    left: 16px;
+    top: 50%;
+    margin-top: -2px;
+    z-index: 1;
+}
+/*蓝色圆点*/
+
+#list>li.line-active:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    background-color: #3d93fd;
+    border: 4px solid #88bdfe;
+    border-radius: 8px;
+    left: 12px;
+    box-shadow: 0 0 0 3px #d8e9ff;
+    z-index: 2;
+}
+.list-out {
+    padding: 10px;
+}
+.list-time {
+    color: #cacaca;
+}
+.list-content div{
+    min-height: 30px;
+}
+.purple{
+    color: #884888;
+}
+.red{
+    color: #f00;
+}
+</style>
+</head>
+<body>
+<ul id="list">
+    <li class="line-active">
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:22
+            </div> 
+            <div class="line-year">
+                2018
+            </div> 
+            <div class="list-content">
+                [ver 1.0] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">千呼万唤始出来</p> 
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:23
+            </div> 
+            <div class="list-content">
+                [ver 1.1] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">最是那一低头的温柔，恰是海棠花不胜凉风的娇羞~</p> 
+            </div>
+        </div>
+    </div>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-04-24 17:03
+            </div> 
+            <div class="list-content">
+                [重要版本更新] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">1.集成了管理权权限<br />2.加入专栏功能<br />3.日志加入图片，优化显示效果</p> 
+                <a href="http://diumx.com" target="_blank"><img src="http://img2.imgtn.bdimg.com/it/u=2014294909,1775473357&fm=26&gp=0.jpg" alt="" class="padtop10 padrig10" /></a>
+                <a href="http://diumx.com" target="_blank"><img src="http://img1.imgtn.bdimg.com/it/u=2619291635,3689986962&fm=26&gp=0.jpg" alt="" class="padtop10 padrig10" /></a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-07-03 10:59
+            </div> 
+            <div class="list-content">
+                [注册用户取得成就]
+                <br /> 
+                <p class="fc666 fsize15 padtop5">1.融资300万<br />2.商城注册用户达到20万<br />3.累计成交单量50万，均单数额200元</p> 
+            </div>
+        </div>
+    </li>
+    <li class="line-active">
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:22
+            </div> 
+            <div class="line-year red">
+                2019
+            </div> 
+            <div class="list-content">
+                [ver 1.0] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">千呼万唤始出来，犹抱琵琶半遮面</p> 
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:23
+            </div> 
+            <div class="list-content">
+                [ver 1.1] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">最是那一低头的温柔，恰是海棠花不胜凉风的娇羞~</p> 
+            </div>
+        </div>
+    </div>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-04-24 17:03
+            </div> 
+            <div class="list-content">
+                [重要版本更新] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">1.集成了管理权权限；<br />2.加入专栏功能；<br />3.日志加入图片，优化显示效果</p> 
+                <a href="http://diumx.com" target="_blank"><img src="http://img2.imgtn.bdimg.com/it/u=2014294909,1775473357&fm=26&gp=0.jpg" alt="" class="padtop10 padrig10" /></a>
+            </div>
+        </div>
+    </li>
+    <li class="line-active">
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:22
+            </div> 
+            <div class="line-year purple">
+                2020
+            </div> 
+            <div class="list-content">
+                [ver 1.0] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">千呼万唤始出来</p> 
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-03-08 17:23
+            </div> 
+            <div class="list-content">
+                [ver 1.1] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">最是那一低头的温柔，恰是海棠花不胜凉风的娇羞~</p> 
+            </div>
+        </div>
+    </div>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-04-24 17:03
+            </div> 
+            <div class="list-content">
+                [重要版本更新] 
+                <br /> 
+                <p class="fc666 fsize15 padtop5">1.集成了管理权权限<br />2.加入专栏功能<br />3.日志加入图片，优化显示效果</p> 
+                <a href="http://diumx.com" target="_blank"><img src="http://img1.imgtn.bdimg.com/it/u=2619291635,3689986962&fm=26&gp=0.jpg" alt="" class="padtop10 padrig10" /></a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="list-out">
+            <div class="list-time">
+                2018-07-03 10:59
+            </div> 
+            <div class="list-content">
+                [注册用户取得成就]
+                <br /> 
+                <p class="fc666 fsize15 padtop5">1.融资300万<br />2.商城注册用户达到20万<br />3.累计成交单量50万，均单数额200元</p> 
+            </div>
+        </div>
+    </li>
+</ul>
+</body>
+</html>
