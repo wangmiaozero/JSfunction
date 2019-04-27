@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="http://www.softwhy.com/" />
+<title>web前端开发学习q群：731771211   详细教程讲解</title>
+<style type="text/css">
+*{
+  margin:0px;
+  padding:0px;
+}
+div{
+  width:160px;
+  height:100px;
+  background:#33ccff;
+  display:none;
+  position:absolute;
+}
+div ul{text-align: center;}
+div li{list-style-type: none;}
+button{
+  top:300px;
+  left:400px;
+  position:absolute;
+}
+</style>
+<script type="text/javascript"> 
+window.onload=function(){ 
+  var btn=document.getElementsByTagName('button')[0]; 
+  var flt=document.getElementsByTagName('div')[0]; 
+  btn.onclick=function(ev){ 
+    var ev=ev||window.event;
+    if(ev.cancelBubble){ev.cancelBubble=true;}
+    else{ev.stopPropagation()}    var x=btn.offsetLeft-15+'px'; 
+    var y=btn.offsetTop-100+'px'; 
+    flt.style.top=y; 
+    flt.style.left=x; 
+    flt.style.display='block'; 
+  } 
+  document.onclick = function(){ 
+    flt.style.display='none'; 
+  } 
+}
+</script>
+</head>
+<body>
+<button id="btn">点击弹出层</button>
+<div>
+  <ul id="nav">
+    <li class="item1"><a href="">告诉你个秘密</a></li>
+    <li class="item2"><a href="">这个地球</a></li>
+    <li class="item3"><a href="">我最帅</a></li>
+    <li class="item4"><a href="">你知道就行了</a></li>
+    <li class="item5"><a href="">别告诉给别人</a></li>
+  </ul>
+</div>
+</body>
+</html>

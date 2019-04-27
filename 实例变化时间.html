@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="http://www.softwhy.com/" />
+<title>web前端开发学习q群：731771211   详细教程讲解</title>
+<script type="text/javascript">
+function printTime(){
+  var time=new Date();
+  var year=time.getFullYear();//年
+  var month=(time.getMonth())+1;//月
+  var daynum=time.getDay();//星期
+  var hour=time.getHours();//小时
+  var min = time.getMinutes();//分
+  var sec=time.getSeconds();//秒
+  var da=time.getDate();//日
+  var daystr;
+  switch(daynum){
+    case 0: daystr="星期日";
+      break;
+    case 1: daystr="星期一";
+      break;
+    case 2: daystr="星期二";
+      break;
+    case 3: daystr="星期三";
+      break;
+    case 4: daystr="星期四";
+      break;
+    case 5: daystr="星期五";
+      break;
+    case 6: daystr="星期六";
+      break;
+    default: daystr="";
+  }
+  var str=year+"年"+month+"月"+da+"日  "+daystr+" "+hour+": "+min+": "+sec;
+  timer.innerHTML=str;
+  setTimeout(printTime,1000);
+  console.log(daynum)
+}
+window.onload=function(){printTime();}
+</script>
+<body>
+<div id="timer"></div>
+</body>
+</html>
