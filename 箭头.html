@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+/*方法一css*/
+body {
+  background: gray
+}
+
+.iframe {
+  position: relative;
+  width: 100px;
+  overflow: hidden;
+  margin-top: 40px
+}
+
+.circular {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.one {
+  background: red;
+}
+
+.two {
+  background: gray;
+  position: absolute;
+  top: 35px;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 60px solid gray;
+  border-left: 70px solid red;
+  border-bottom: 60px solid gray;
+  position: absolute;
+  top: 0;
+  left: 100px;
+}
+/*方法二css*/
+
+#test1{
+    margin: 100px;
+    border-radius: 100px 1px;
+    border-top: 40px solid #f00;
+    border-left: 0px solid #fff);
+    width: 100px;
+    height: 100px;
+}
+
+#test1::after{
+    content: '';
+    display: block;
+    width: 0px;
+    height: 0px;
+    border: 50px solid transparent;
+    border-left-color: #f00;
+    margin: -70px 100px;
+}
+</style>
+</head>
+<body>    
+<!-- 方法一 -->
+<div class="iframe">
+    <div class="circular one"></div>
+    <div class="circular two"></div>
+</div>
+<div class="triangle"></div>
+<!-- 方法二 -->
+<div id="test1"></div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>自定义右键下拉菜单</title>
+</head>
+<style type="text/css">
+body,div,ul,li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 12px/1.5 \5fae\8f6f\96c5\9ed1;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#cen {
+    font-size: 36px;
+    color: #60F;
+    text-align: center;
+}
+
+#div {
+    position: absolute;
+    display: none;
+}
+
+#div ul {
+    position: absolute;
+    float: left;
+    border: 1px solid #979797;
+    background: #f1f1f1;
+    padding: 2px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,.6);
+    width: 230px;
+    overflow: hidden;
+}
+
+#div ul li {
+    float: left;
+    clear: both;
+    height: 24px;
+    cursor: pointer;
+    line-height: 24px;
+    white-space: nowrap;
+    padding: 0 30px;
+    width: 100%;
+    display: inline-block
+}
+
+#div ul li:hover {
+    background: #e6edf6;
+    border: 1px solid #b4d2f6;
+}
+</style>
+<body>
+<div id="cen">点击鼠标右键</div>
+<div id="div">
+<ul>
+<li><strong>biaobai</strong></li>
+<li>wo</li>
+<li>xiang</li>
+<li>shi</li>
+<li>ni</li>
+<li>le</li>
+
+</ul>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+document.oncontextmenu=function(ev)
+{
+    var oEvent=ev||event;
+    var oDiv=document.getElementById('div');
+    oDiv.style.display='block';
+    oDiv.style.left=oEvent.clientX+'px';
+    oDiv.style.top=oEvent.clientY+'px';
+    return false;
+};
+
+document.onclick=function()
+{
+    var oDiv=document.getElementById('div');
+    oDiv.style.display='none';
+    };
+</script>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>  
+<html>  
+<head> 
+<meta charset="utf-8" /> 
+<title>modal</title>  
+<style type="text/css">
+
+#bg {
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1001;
+  -moz-opacity: 0.7;
+  opacity: .70;
+  filter: alpha(opacity=70);
+}
+
+#show {
+  display: none;
+  position: absolute;
+  top: 5%;
+  left: 22%;
+  width: 53%;
+  height: 90%;
+  padding: 8px;
+  border: 2px solid #E8E9F7;
+  background-color: white;
+  z-index: 1002;
+  overflow: auto;
+}
+
+caption {
+  background-color: #E8E9F7;
+  text-align: center;
+  color: #000;
+  font: 16px bold
+}
+
+.fr {
+  float: right;
+}
+
+.btnx {
+  background: transparent;
+  border: none
+}
+
+.center {
+  text-align: center;
+}
+</style>
+<script type="text/javascript" src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+function show(){
+  $("#bg,#show").css({"display":"block"});
+}
+function hide(){
+  $("#bg,#show").css({"display":"none"});
+ }
+</script>
+</head>
+<body>
+<input id="btnshow" type="button" value="可能性分级表" onclick="show();"/>
+<div id="bg"></div>
+<div id="show">
+<input id="btnclose" class="fr btnx" type="button" value="×" onclick="hide();"/>
+<table>
+  <tr>
+    <th>严重性/可能性</th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>5</td>
+    <td>10</td>
+    <td>15</td>
+    <td>20</td>
+    <td>25</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>4</td>
+    <td>8</td>
+    <td>12</td>
+    <td>16</td>
+    <td>20</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>3</td>
+    <td>6</td>
+    <td>9</td>
+    <td>12</td>
+    <td>15</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+    <td>6</td>
+    <td>8</td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+  </tr>
+  </table>
+<table>
+  <tr>
+    <th>R值</th>
+    <th>风险等级</th>
+    <th>风险矩阵评定结果</th>
+  </tr>
+  <tr>
+    <td>R≥11</td>
+    <td>重大</td>
+    <td>不可接受</td>
+  </tr>
+  <tr>
+    <td>8&lt;R&lt;11</td>
+    <td>较大</td>
+    <td>缓解后可接受</td>
+  </tr>
+  <tr>
+    <td>1≤R≤8</td>
+    <td>一般</td>
+    <td>可接受，需采取一定措施</td>
+  </tr>
+  </table>
+  <!-- 可能性分级表 -->
+  <table>
+    <caption>可能性分级表</caption>
+  <th colspan="3">可能性：一连串事件及结果发生的可能性。</th>
+  <tr>
+    <td>1</td>
+    <td>极不可能</td>
+    <td>近十年内国内外未发生</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>不大可能</td>
+    <td>近十年内国内偶尔发生</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>可能性很小</td>
+    <td>国内每年偶尔发生</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>相对可能。</td>
+    <td>每年偶尔发生</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>经常</td>
+    <td>每年多次发生</td>
+  </tr>
+</table>
+<div class="center"><button onclick="hide();">关闭</button></div>
+</div>
+</body>
+</html>
