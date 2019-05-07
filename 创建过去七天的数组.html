@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //创建过去七天的数组，如果将代码中的减号换成加号，你将得到未来7天的数组集合
+        console.log([...Array(7).keys()].map(days => new Date(Date.now() - 86400000 * days)));
+    </script>
+</body>
+</html>
