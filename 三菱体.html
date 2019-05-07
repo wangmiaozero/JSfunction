@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS3 三棱柱</title>
+<style>
+*{ margin:0; padding:0;}
+body > div{ position:absolute; top:200px; z-index:5; left:200px; width:200px; }
+.box{ height:200px;border:1px solid #000;}
+.box1{ left:60px; top:400px; width:140px; height:140px; border: 1px dashed rgba(102,102,102,0.8); border-right:none;  border-bottom:1px solid #000; transform:rotateZ(135deg) skewX(-45deg);-webkit-transform:rotateZ(135deg) skewX(-45deg); -moz-transform:rotateZ(135deg) skewX(-45deg); transform-origin:top right; -webkit-transform-origin:top right; -moz-transform-origin:top right;}
+.box2{ left:400px; top:400px;  width:140px; height:140px;  border-top:1px dashed rgba(102,102,102,0.8);   border-bottom:1px solid #000; transform:rotateZ(-135deg) skewX(45deg); -webkit-transform:rotateZ(-135deg) skewX(45deg); -moz-transform:rotateZ(-135deg) skewX(45deg); transform-origin:left top; -webkit-transform-origin:left top; -moz-transform-origin:left top;}
+</style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <div class="box1"></div>
+    <div class="box2"></div>
+</body>
+</html>
