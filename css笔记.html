@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    </head>
+    <style>
+        /* 设置滚动条的样式 */
+        ::-webkit-scrollbar {
+            width:5px;
+        }
+        /* 滚动槽 */
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow:inset006pxrgba(0,0,0,.5);
+            border-radius:10px;
+            background:#fff;
+            border:1px solid #000;
+        }
+        /* 滚动条滑块 */
+        ::-webkit-scrollbar-thumb {
+            border-radius:10px;
+            background:rgba(0,0,0,0.5);
+            -webkit-box-shadow:inset006pxrgba(0,0,0,0.5);
+        }
+        ::-webkit-scrollbar-thumb:window-inactive {
+            background:rgba(0,0,0,0.2);
+        }
+        /*区域内虚化  值:像素*/
+        .blur {
+            -webkit-filter: blur(2px); /* Chrome, Opera */
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);    
+            filter: blur(2px);    
+        }
+        /*反色  值:0~1*/
+        .invert  {
+            -webkit-filter: invert(.8) ; /* Chrome, Opera */
+            -moz-filter: invert(.8) ;
+            -ms-filter: invert(.8) ;    
+            filter: invert(.8) ; 
+        }
+        /*透明度  值:0~1*/
+        .opacity {
+            -webkit-filter: opacity(.8); /* Chrome, Opera */
+            -moz-filter: opacity(.8);
+            -ms-filter: opacity(.8);   
+            filter: opacity(.8); 
+
+        }
+        /*饱和度 值:0~1*/
+        .grayscale {
+            -webkit-filter: grayscale(.8); /* Chrome, Opera */
+            -moz-filter: grayscale(.8);
+            -ms-filter: grayscale(.8);   
+            filter: grayscale(.8); 
+        }
+        /*褐色 值:0~1*/
+        .sepia {
+            -webkit-filter: sepia(.8); /* Chrome, Opera */
+            -moz-filter: sepia(.8);
+            -ms-filter: sepia(.8);   
+            filter: sepia(.8); 
+        }
+        /*亮度 值:0~1*/
+        .brightness {
+            -webkit-filter: brightness(.5); /* Chrome, Opera */
+            -moz-filter: brightness(.5);
+            -ms-filter: brightness(.5);   
+            filter: brightness(.5); 
+        }
+        /*对比度  值:num*/
+        .contrast {
+            -webkit-filter: contrast(100); /* Chrome, Opera */
+            -moz-filter: contrast(100);
+            -ms-filter: contrast(100);   
+            filter: contrast(100); 
+        }
+        /*输入框的提示文字样式*/
+        ::-webkit-input-placeholder {
+          color: red;
+        }
+        :-moz-placeholder {
+          color: red;
+        }
+        ::-moz-placeholder{
+        color: red;
+        }
+        :-ms-input-placeholder {
+          color: red;
+        }
+        div img{width:20%; height:150px;}
+        div p{padding: 0;margin: 0;width: 100%;}
+    </style>
+    <body>
+        <div style="width: 100%;height: 200px;overflow: overlay;background: rgba(0,0,0,.1);">
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+            <h1>66666666666</h1>
+        </div>
+        <input placeholder="输入框的提示文字" />
+        <div style="padding-top: 5px;">
+            <p>原图</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg">
+            <p>虚化</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="blur">
+            <p>反色</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="invert">
+            <p>透明度</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="opacity">
+            <p>饱和度</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="grayscale">
+            <p>褐色</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="sepia">
+            <p>亮度</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="brightness">
+            <p>对比度</p>
+            <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3674449147,107671981&fm=116&gp=0.jpg" class="contrast">
+        </div>
+    </body>
+</html>
