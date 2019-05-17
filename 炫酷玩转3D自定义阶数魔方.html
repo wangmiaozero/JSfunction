@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+    <script language="javascript" type="text/javascript">
+        var cache = {};
+        (function (exports) {
+            //手机滑动事件对象
+            function touchEvent(target, startEvent, moveEvent, endEvent) {
+                var slider = {
+                    //判断设备是否支持touch事件
+                    touch: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+                    slider: null,
+                    startEvent: null,
+                    moveEvent: null,
+                    endEvent: null,
+                    //滑动开始
+                    start: function (event) {
+                        var touch = event.targetTouches[0];     //touches数组对象获得屏幕上所有的touch，取第一个touch
+                        endPos = startPos = { x: touch.pageX, y: touch.pageY, time: +new Date };    //取第一个touch的坐标值
+                        isScrolling = 0;   //这个参数判断是垂直滚动还是水平滚动
+                        slider.slider.addEventListener('touchmove', slider.move, false);
+                        slider.slider.addEventListener('touchend', slider.end, false);
+                        if (slider.startEvent != undefined && typeof (slider.startEvent) == "function")
+                            slider.startEvent.call(this, touch);
+                    },
+                    //移动
+                    move: function (event) {
+                        //当屏幕有多个touch或者页面被缩放过，就不执行move操作
+                        if (event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+                        var touch = event.targetTouches[0];
+                        endPos = { x: touch.pageX - startPos.x, y: touch.pageY - startPos.y };
+                        isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1 : 0;    //isScrolling为1时，表示纵向滑动，0为横向滑动
+                        if (isScrolling === 0) {
+                           // event.preventDefault();      //阻止触摸事件的默认行为，即阻止滚屏
+                        }
+                        if (slider.moveEvent != undefined && typeof (slider.moveEvent) == "function")
+                            slider.moveEvent.call(this, touch);
+                    },
+                    //滑动释放
+                    end: function (event) {
+                        var duration = +new Date - startPos.time;    //滑动的持续时间
+                        if (isScrolling === 0) {    //当为水平滚动时
+                            if (Number(duration) > 10) {
+                                //判断是左移还是右移，当偏移量大于10时执行
+                                if (endPos.x > 10) {
+
+                                } else if (endPos.x < -10) {
+
+                                }
+                            }
+                        }
+                        if (slider.endEvent != undefined && typeof (slider.endEvent) == "function")
+                            slider.endEvent.call(this, event);
+                        //解绑事件
+                        slider.slider.removeEventListener('touchmove', slider.move, false);
+                        slider.slider.removeEventListener('touchend', slider.end, false);
+                    }
+                    ,
+
+                    //初始化
+                    init: function () {
+                        var self = this;     //this指slider对象
+                        if (!!self.touch) self.slider.addEventListener('touchstart', this.start, false);    //addEventListener第二个参数可以传一个对象，会调用该对象的handleEvent属性
+                    }
+                }
+                slider.slider = target;
+                slider.startEvent = startEvent;
+                slider.moveEvent = moveEvent;
+                slider.endEvent = endEvent;
+                slider.init();
+                return { touch: slider.touch, target: slider.slider }
+            };
+            //windows按下拖动对象
+            function dragEvent(down_target, move_target, down, move, up) {
+                var drag = {
+                    down_target: null,
+                    move_target: null,
+                    move: null,
+                    up: null,
+                    down: null,
+                    intial: function (down_target, move_target, down, move, up) {
+                        if (down_target == undefined || move_target == undefined || move == undefined)
+                            return;
+                        this.down_target = down_target;
+                        this.move_target = move_target;
+                        this.down = down;
+                        this.move = move;
+                        this.up = up;
+                        drag.prefixedEvent(drag.down_target, "mousedown", this.mousedown, true);
+                        drag.prefixedEvent(drag.down_target, "mouseup", this.mouseup, true);
+                        drag.prefixedEvent(document, "mouseup", this.mouseup, true);
+                    },
+                    mouseup: function (e) {
+                        drag.stopEvent(e); //这里需要冒泡
+                        if (drag.up != undefined && typeof (drag.up) == "function")
+                            drag.up.call(this, e);
+                        drag.prefixedEvent(drag.move_target, "mousemove", drag.mousemove, false);
+                    },
+                    mousemove: function (evt) {
+                        var e = (evt) ? evt : window.event;
+                        drag.move.call(this, e);
+                    },
+                    mousedown: function (evt) {
+                        drag.stopEvent(evt); //这里阻止冒泡
+                        var e = (evt) ? evt : window.event;
+                        if (drag.down != undefined && typeof (drag.down) == "function")
+                            drag.down.call(this, e);
+                        drag.prefixedEvent(drag.move_target, "mousemove", drag.mousemove, true);
+                    },
+                    stopEvent: function (evt) {
+                        if (evt == undefined) return;
+                        var e = (evt) ? evt : window.event; //判断浏览器的类型，在基于ie内核的浏览器中的使用cancelBubble
+                        if (window.event) { e.cancelBubble = true; } else { e.stopPropagation(); }
+                    },
+                    prefixedEvent: function (element, type, callback, isAdd) {
+                        var pfx = ["webkit", "moz", "MS", "o", ""];
+                        for (var p = 0; p < pfx.length; p++) {
+                            if (!pfx[p]) type = type.toLowerCase();
+                            if (isAdd)
+                                element.addEventListener(pfx[p] + type, callback, false);
+                            else
+                                element.removeEventListener(pfx[p] + type, callback, false);
+                        }
+                    }
+                }
+                drag.intial(down_target, move_target, down, move, up);
+                return drag;
+            }
+
+            //手动旋转控制器面板
+            function Controller(opts) {
+                opts = opts || {};
+                this.parent = opts.parent; //插入到哪里
+                this.pWidth = this.parent.clientWidth;
+                this.pHeight = this.parent.clientHeight;
+                this.width = this.pWidth / 3;
+                this.height = this.pHeight / 3;
+                this.upImg = opts.upImg || 'http://cdn.attach.qdfuns.com/notes/pics/201605/30/104921ksxt7eexn5ox17oa.png';
+                this.downImg = opts.upImg || 'http://cdn.attach.qdfuns.com/notes/pics/201605/30/104921hh9accx2ymfc42xb.png';
+                this.leftImg = opts.upImg || 'http://cdn.attach.qdfuns.com/notes/pics/201605/30/104921wufxpjffbplehvll.png';
+                this.rightImg = opts.upImg || 'http://cdn.attach.qdfuns.com/notes/pics/201605/30/104921mpvrvnjoxirj8ov7.png';
+                this.Click = opts.Click || null;
+                this.init();
+            }
+            Controller.prototype = {
+                init: function () {
+                    this.createUp();
+                    this.createDown();
+                    this.createLeft();
+                    this.createRight();
+                },
+                createDiv: function () {
+                    var div = document.createElement('div');
+                    div.style.margin = 0;
+                    div.style.position = "absolute";
+                    div.style.width = this.width + "px";
+                    div.style.height = this.height + "px";
+                    //div.style.backgroundRepeat = "no-repeat";
+                    //div.style.backgroundPosition = "center";
+                    //div.style.backgroundAttachment = "fixed";
+                    div.style.backgroundSize = "100% 100%";
+                    div.style.cursor = "pointer";
+                    var that = this;
+                    div.addEventListener("mouseup", this.Click, false);
+                    return div;
+                },
+                createUp: function () {
+                    var div = this.createDiv();
+                    div.style.backgroundImage = "url(" + this.upImg + ")";
+                    div.style.left = "33%";
+                    div.style.top = "10%";
+                    div.direct = "up";
+                    this.up = div;
+                    this.parent.appendChild(div);
+                },
+                createDown: function () {
+                    var div = this.createDiv();
+                    div.style.backgroundImage = "url(" + this.downImg + ")";
+                    div.style.left = "33%";
+                    div.style.top = "56%";
+                    div.direct = "down";
+                    this.down = div;
+                    this.parent.appendChild(div);
+                },
+                createLeft: function () {
+                    var div = this.createDiv();
+                    div.style.backgroundImage = "url(" + this.leftImg + ")";
+                    div.style.left = "10%";
+                    div.style.top = "33%";
+                    div.direct = "left";
+                    this.left = div;
+                    this.parent.appendChild(div);
+                },
+                createRight: function () {
+                    var div = this.createDiv();
+                    div.style.backgroundImage = "url(" + this.rightImg + ")";
+                    div.style.left = "56%";
+                    div.style.top = "33%";
+                    div.direct = "right";
+                    this.right = div;
+                    this.parent.appendChild(div);
+                }
+            }
+            //单个立方体对象
+            function Cube(opts) {
+                opts = opts || {};
+                this.parent = opts.parent; //插入到哪里
+                this.browserPrefix = opts.browserPrefix;
+                this.width = opts.width;
+                this.height = opts.height;
+                this.cubZ = opts.cubZ;
+                this.face = opts.face;
+                this.row = opts.row;
+                this.column = opts.column;
+                this.index=opts.index;
+                this.offsetX = this.column * (this.width + opts.marginX); //
+                this.offsetY = this.row * (this.height + opts.marginY); //
+                this.offsetZ = this.face * (this.cubZ + opts.marginZ); //
+                this.positiveZ = this.cubZ / 2;
+                this.negativeZ = -this.cubZ / 2;
+                this.cubFaceInfo = opts.cubFaceInfo;
+                this.dimension = opts.dimension;
+                this.centerX = (this.dimension * this.width + (this.dimension - 1) * opts.marginX) / 2;
+                this.centerY = (this.dimension * this.height + (this.dimension - 1) * opts.marginY) / 2;
+                this.centerZ = (this.dimension * this.cubZ + (this.dimension - 1) * opts.marginZ) / 2;
+                this.translateX = this.offsetX - this.centerX; //把中心点设为原点
+                this.translateY = this.offsetY - this.centerY; //
+                this.translateZ = this.cubZ / 2 + this.offsetZ - this.centerZ; //offsetZ按上面计算应该跟x,y在一个平面上即后面，但实际上由于要形成立方体，在Z轴上已经后退了cubZ/2个距离，故为和上面保持一致在一个面上，这里需要再加回cubZ/2个距离，使默认的xyz原点都在一个平面上即立方体后面左上角三维坐标系，以这个点作为参考点平移和设置旋转原点
+                this.cubeFace = [];
+                this.rotateTransfrom = "";
+                this.init();
+
+            }
+            Cube.prototype = {
+                init: function () {
+                    this.createCubeBox();
+                    this.createFront();
+                    this.createBack();
+                    this.createTop();
+                    this.createBottom();
+                    this.createLeft();
+                    this.createRight();
+
+                },
+                createCubeBox: function () {
+                    this.Box = document.createElement('div');
+                    this.Box.style.width = this.width + "px";
+                    this.Box.style.height = this.height + "px";
+                    this.Box.style.left = "50%";
+                    this.Box.style.top = "50%";
+                    this.Box.style.position = "absolute";
+                    this.Box.style[this.browserPrefix + "TransformStyle"] = "preserve-3d";
+                    this.Box.style[this.browserPrefix + "Perspective"] = "0";
+                    //                    this.Scene.style[this.browserPrefix + "backfaceVisibility"] = "hidden";
+                    this.intalTransform = "translateZ(" + this.translateZ + "px) translateX(" + this.translateX + "px) translateY(" + this.translateY + "px)";
+                    this.Box.style[this.browserPrefix + "Transform"] = this.intalTransform;
+                    this.Box.style[this.browserPrefix + "TransformOrigin"] = "" + (-this.translateX) + "px " + (-this.translateY) + "px " + (-this.translateZ) + "px";
+                    this.Box.index=this.index;
+                    this.parent.appendChild(this.Box);
+                    this.x = window.getComputedStyle(this.Box).getPropertyValue('left');
+                    this.y = window.getComputedStyle(this.Box).getPropertyValue('top');
+                    this.matrix3d = window.getComputedStyle(this.Box).getPropertyValue('transform');
+                },
+                createFace: function () {
+                    var face = document.createElement('div');
+                    face.style.margin = 0;
+                    face.style.position = "absolute";
+                    face.style.width = this.width + "px";
+                    face.style.height = this.height + "px";
+                    face.style.textAlign="center";
+                    face.style.lineHeight=this.height + "px";
+                   // face.innerHTML=this.index;
+                    return face;
+                },
+                createFront: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "translateZ(" + this.positiveZ + "px) ";
+                    face.translateZ = this.positiveZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.front = face;
+                    this.Box.appendChild(face);
+                },
+                createBack: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "translateZ(" + this.negativeZ + "px) ";
+                    face.translateZ = this.negativeZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.back = face;
+                    this.Box.appendChild(face);
+                },
+                createTop: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "rotateX(90deg) translateZ(" + this.positiveZ + "px) ";
+                    face.translateZ = this.positiveZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.top = face;
+                    this.Box.appendChild(face);
+                },
+                createBottom: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "rotateX(90deg) translateZ(" + this.negativeZ + "px) ";
+                    face.translateZ = this.negativeZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.bottom = face;
+                    this.Box.appendChild(face);
+                },
+                createLeft: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "rotateY(90deg) translateZ(" + this.negativeZ + "px) ";
+                    face.translateZ = this.negativeZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.left = face;
+                    this.Box.appendChild(face);
+                },
+                createRight: function () {
+                    var face = this.createFace();
+                    face.style[this.browserPrefix + "Transform"] = "rotateY(90deg) translateZ(" + (this.positiveZ) + "px) ";
+                    face.translateZ = this.positiveZ; //给生成控制面板用
+                    this.cubeFace.push(face);
+                    this.right = face;
+                    this.Box.appendChild(face);
+                }
+
+            }
+            exports.magicCube = function (opts) {
+                opts = opts || {};
+                //外部传入参数
+                this.parent = opts.parent || document.getElementsByTagName('body')[0];
+                this.dimension = opts.dimension || 3;  //魔方级数
+                this.cubWidth = opts.cubWidth || 50;   //单个立方体宽度
+                this.cubHeight = opts.cubHeight || 50; //单个立方体高度
+                this.marginLeft = opts.marginLeft || 0; //水平方向间距
+                this.marginTop = opts.marginLeft || 0; //上下方向间距
+                this.marginZ = opts.marginZ || 0;      //前后方向间距
+                this.cubZ = opts.cubZ || 50;           //单个立方体Z轴距离
+                this.sceneWidth = opts.sceneWidth || (opts.parent != null ? opts.parent.clientWidth : null);     //3d场景宽度
+                this.sceneHeight = opts.sceneHeight || (opts.parent != null ? opts.parent.clientHeight : null);   //3d场景高度
+                this.Perspective = opts.Perspective || 0; //投影值
+                this.opacity = opts.opacity || 1;
+                this.cubFaceInfo = opts.cubFaceInfo || { front: { backGround: "rgba(255,0,0," + this.opacity + ")" }, back: { backGround: "rgba(255,255,0," + this.opacity + ")" }, left: { backGround: "rgba(0,255,0," + this.opacity + ")" }, right: { backGround: "rgba(0,0,255," + this.opacity + ")" }, top: { backGround: "rgba(255,0,255," + this.opacity + ")" }, bottom: { backGround: "rgba(255,255,255," + this.opacity + ")" }, inner: { backGround: "rgba(150,150,150," + this.opacity + ")" } }; //立方体面信息
+                this.angle = opts.angle || 90;         //转动的角度
+                this.rollbackPoint = opts.rollbackPoint || 10; //回滚的步数（自动播放时指定此步数可回归）
+                this.autoPlay = opts.autoPlay || false;            //是否自动播放
+                this.delay = opts.delay || 1;                      //动画延时
+                this.isRandomConfuse = opts.isRandomConfuse || false;//是否自动旋转时是随机打乱模式是，到达指定回归点后便停止自动播放
+                this.statusCallBack = opts.statusCallBack || null;//外部状态回调函数用于显示步数
+                //内部使用参数
+                this.faceCount = this.dimension * this.dimension; //每面立方体个数
+                this.count = this.dimension * this.dimension * this.dimension; //立方体总个数
+                this.cubes = []; //记录组成魔方的单个立方体对象
+                this.controllers = []; //记录控制面板对象
+                this.browserPrefix = "";
+                this.isRunning = 0;
+                this.timer = null;
+                this.rotateFace; //转动的3维坐标系方向
+                this.moveDirect = true; //正向随机动作还是回归，默认为正向
+                this.cubeMoveQueue = [];
+                this.rollMoveStack = []; //动作回归的堆栈
+                this.lock = false;         //旋转事件锁
+                this.scenceRotateXed = 30;
+                this.scenceRotateYed = -30;
+                this.init();
+            };
+            magicCube.prototype = {
+                init: function () {
+                    this.start();
+                },
+                create3dScene: function () {
+                    this.Scene = document.createElement('div');
+                    //this.Scene.className = "cube";
+                    var width = this.sceneWidth || this.clientWidth,
+                        height = this.sceneHeight || this.clientHeight;
+                    this.Scene.style.width = width + "px";
+                    this.Scene.style.height = height + "px";
+                    this.Scene.style.position = "relative";
+                    this.Scene.style.top = "0";
+                    this.Scene.style.left = "0";
+                    this.Scene.style[this.browserPrefix + "TransformStyle"] = "preserve-3d";
+                    this.Scene.style[this.browserPrefix + "Perspective"] = this.Perspective + "px";
+                    //                    this.Scene.style[this.browserPrefix + "backfaceVisibility"] = "hidden";
+                    this.Scene.style[this.browserPrefix + "Transform"] = "rotateX(" + this.scenceRotateYed + "deg) rotateY(" + this.scenceRotateXed + "deg) ";
+                    var that = this;
+                    function down(e) {
+                        document.downX = e.pageX;
+                        document.downY = e.pageY;
+                        document.rotateX = that.scenceRotateXed;
+                        document.rotateY = that.scenceRotateYed;
+                    }
+                    function move(e) {
+                        var rotateX = e.pageX - document.downX + that.scenceRotateXed,
+                            rotateY = document.downY - e.pageY + that.scenceRotateYed;
+                        // console.log(rotateX + "," + rotateY);
+                        that.Scene.style[that.browserPrefix + "Transform"] = "rotateX(" + rotateY + "deg) rotateY(" + rotateX + "deg) ";
+                        document.rotateX = rotateX;
+                        document.rotateY = rotateY;
+                    }
+                    function up(e) {
+                        if (this == that.parent) {
+                            that.scenceRotateXed = document.rotateX;
+                            that.scenceRotateYed = document.rotateY;
+                        }
+                    }
+                    dragEvent(this.parent, this.parent, down, move, up);
+                    touchEvent(this.parent, down, move, up);
+                    this.parent.appendChild(this.Scene);
+
+                },
+                create: function (face, row, column,index) {
+                    return new Cube({
+                        parent: this.Scene,
+                        dimension: this.dimension,
+                        width: this.cubWidth,
+                        height: this.cubHeight,
+                        cubZ: this.cubZ,
+                        face: face,
+                        row: row,
+                        column: column,
+                        index:index,
+                        browserPrefix: this.browserPrefix,
+                        cubFaceInfo: this.cubFaceInfo,
+                        marginX: this.marginLeft,
+                        marginY: this.marginTop,
+                        marginZ: this.marginZ,
+                        dimension: this.dimension
+                    });
+                },
+                createMagicCube: function (index) {
+                    var face = 0, row = 0, column = 0;
+                    for (var i = 0; i < this.count; i++) {
+                        this.cubes.push(this.create(face, row, column,i));
+                        column++;
+                        if ((i + 1) % this.dimension === 0) {
+                            row++;
+                            column = 0;
+                        }
+                        if ((i + 1) % this.faceCount === 0) {
+                            face++;
+                            row = 0;
+                        }
+                    }
+                },
+                drawBackGroundColor: function () {
+                    for (var face in this.cubFaceInfo) {
+                        if (face == "inner") {
+                            this.setInnerBKColor(this.cubFaceInfo[face].backGround);
+                        }
+                        else {
+                            var cube = this.getCubesByFace(face);
+                            for (var i = 0, len = cube.length; i < len; i++) {
+                                var controlPanel = this.getControlPanel(cube[i].Box, cube[i][face]);
+                                this.createController(controlPanel, face, cube[i].index); //创建对应的控制面板
+                                cube[i][face].style.background = this.cubFaceInfo[face].backGround;
+                                this.bindMouseEvent(cube[i][face], face); //绑定触发和解除控制面板的事件
+                            }
+                        }
+                    }
+
+                },
+                bindMouseEvent: function (faceElement, face) {
+                    faceElement.face = face;
+                    faceElement.addEventListener("mouseover", function (e) { _this = cache.magicCube; if (_this.lock || _this.autoPlay) return; _this.showController(this.parentNode.index, this.face); _this.stopEvent(e); }, false);
+                    faceElement.addEventListener("mouseout", function (e) { _this = cache.magicCube; if (_this.lock || _this.autoPlay) return; _this.hideController(this.parentNode.index, this.face); _this.stopEvent(e); }, false);
+                },
+                createController: function (controlPanel, face, index) {
+                    controlPanel.style.visibility = "hidden";
+                    controlPanel.style.background = "rgba(255,255,255,.3)";
+                    controlPanel.isFocus = false;
+                    controlPanel.addEventListener("mouseover", function (e) { this.isFocus = true; }, false);
+                    controlPanel.addEventListener("mouseout", function (e) { this.isFocus = false; _this = cache.magicCube; _this.hideController(this.index, this.face); }, false);
+                    controlPanel.index = index; //记录索引 点击事件去查找对应的立方体
+                    controlPanel.face = face;
+                    var controller = new Controller({ parent: controlPanel, Click: this.RoateEvent }); //产生控制面板
+                    controller.index = index;
+                    controller.face = face;
+                    this.controllers.push(controller);
+                },
+                showController: function (index, face) {
+                    var controller = this.getControllerByIndex(index, face);
+                    controller.style.visibility = "visible";
+                },
+                hideController: function (index, face, async) {
+                    var controller = this.getControllerByIndex(index, face);
+                    setTimeout(function () {
+                        if (!controller.isFocus)
+                            controller.style.visibility = "hidden";
+                    }, 100);
+
+                },
+                getControllerByIndex: function (index, face) {
+                    for (var i = 0, len = this.controllers.length; i < len; i++) {
+                        if (this.controllers[i].index == index && this.controllers[i].face == face)
+                            return this.controllers[i].parent;
+                    }
+                },
+                stopEvent: function (evt) {
+                    var e = (evt) ? evt : window.event; //判断浏览器的类型，在基于ie内核的浏览器中的使用cancelBubble
+                    if (window.event) { e.cancelBubble = true; } else { e.stopPropagation(); }
+                },
+                getControlPanel: function (parent, source)  //克隆出一个面作为控制面板
+                {
+                    var cNode = source.cloneNode(true);
+                    var translateZ = parseInt(source.translateZ);
+                    translateZ = translateZ > 0 ? 5 : -5;
+                    cNode.style[this.browserPrefix + "Transform"] += "translateZ(" + translateZ + "px) ";
+                    //cNode.style[this.browserPrefix + "BorderRadius"]=source.translateZ+"px";
+                    parent.appendChild(cNode);
+                    return cNode;
+                },
+                setInnerBKColor: function (color) {
+                    for (var i = 0; i < this.count; i++) {
+                        for (var j = 0; j < 6; j++) {
+                            if (this.cubes[i].cubeFace[j].style.background == "") {
+                                this.cubes[i].cubeFace[j].style.background = color;
+                            }
+                        }
+                    }
+                },
+                getZFace: function (zIndex) {
+                    var zFace = [];
+                    if (zIndex < 1 || zIndex > this.dimension)
+                        return null;
+                    for (var i = (zIndex - 1) * this.faceCount; i < zIndex * this.faceCount; i++) {
+                        zFace.push(this.cubes[i]);
+                    }
+                    return zFace;
+                },
+                getXFace: function (xIndex) {
+                    var xFace = [];
+                    if (xIndex < 1 || xIndex > this.dimension)
+                        return null;
+                    for (var i = 0; i < this.count; i++) {
+                        if (i % this.dimension == 0)
+                            xFace.push(this.cubes[i + xIndex - 1]);
+                    }
+                    return xFace;
+                },
+                getYFace: function (yIndex) {
+                    var yFace = [];
+                    if (yIndex < 1 || yIndex > this.dimension)
+                        return null;
+                    for (var i = 0; i < this.count; i++) {
+                        if (i % this.faceCount == (yIndex - 1) * this.dimension) {
+                            for (var j = 0; j < this.dimension; j++)
+                                yFace.push(this.cubes[i + j]);
+                        }
+                    }
+                    return yFace;
+                },
+                getSideCubes: function (cubes, circleIndex) {//获取魔方某个面上的从外围开始的指定圈上的立方体，分成上下左右四个数组，上右倒叙，使整个圈上按一个顺序排列
+                    var sides = [], top = [], left = [], bottom = [], right = [];
+                    if (circleIndex < 0 || circleIndex > this.dimension / 2 - 1)
+                        return null;
+                    for (var i = 0, count = this.dimension - circleIndex * 2; i < count; i++) {
+                        top.push(cubes[circleIndex * this.dimension + circleIndex + i]);
+                        left.push(cubes[circleIndex * this.dimension + circleIndex + i * this.dimension]);
+                        bottom.push(cubes[(this.dimension - 1 - circleIndex) * this.dimension + circleIndex + i]);
+                        right.push(cubes[circleIndex * this.dimension + circleIndex + i * this.dimension + (this.dimension - (circleIndex * 2) - 1)]);
+                    }
+                    sides.push(this.orderByDesc(top));
+                    sides.push(left);
+                    sides.push(bottom);
+                    sides.push(this.orderByDesc(right));
+                    return sides;
+                },
+                getCubesByFace: function (face) {
+                    switch (face) {
+                        case "front": return this.getZFace(this.dimension);
+                        case "back": return this.getZFace(1);
+                        case "left": return this.getXFace(1);
+                        case "right": return this.getXFace(this.dimension);
+                        case "top": return this.getYFace(1);
+                        case "bottom": return this.getYFace(this.dimension);
+                    }
+                },
+                moveMagicCube: function () {
+                    if (this.cubes.length < 1) return;
+                    //var cubes = this.getYFace(2);
+                    //for (var i = 0, len = cubes.length; i < len; i++) {
+                    //    cubes[i].Box.className = "rotate";
+                    //}
+                    //随机产生3D转动方向
+                    this.isRunning = 0;
+                    var direct = this.random(1, 3), rotateDirect = "", getFaceFun;
+                    //  direct=3;
+                    switch (direct) {
+                        case 1: rotateDirect = "rotateX"; getFaceFun = this.getXFace; break;
+                        case 2: rotateDirect = "rotateY"; getFaceFun = this.getYFace; break;
+                        case 3: rotateDirect = "rotateZ"; getFaceFun = this.getZFace; break;
+                    }
+                    this.rotateFace = rotateDirect;
+                    this.cubeRotateStatus = [];
+                    for (var i = 1; i <= this.dimension; i++) {
+                        var status = this.random(0, 2);
+                        this.cubeRotateStatus.push(status);
+                        switch (status) {
+                            case 0: break; //不转动
+                            case 1: this.rotateBox(this.angle, rotateDirect, i, getFaceFun.call(this, i)); break; //正向转动90
+                            case 2: this.rotateBox(-this.angle, rotateDirect, i, getFaceFun.call(this, i)); break; //反向转动90
+                        }
+
+                    }
+                    var flag = false;
+                    for (var i = 0, len = this.cubeRotateStatus.length; i < len; i++) {
+                        if (this.cubeRotateStatus[i]) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) {//一个都没转的情况 则强制补充一个
+                        var index = this.random(1, this.dimension);
+                        this.rotateBox(this.angle, rotateDirect, index, getFaceFun.call(this, index)); //正向转动90
+                        this.cubeRotateStatus[index - 1] = 1; //全都不转动 默认选出一个 使其正向转动指定度数
+                    }
+                    setTimeout(this.timerFun, 100);
+                    this.rollMoveStack.push({ rotateFace: this.rotateFace, cubeRotateStatus: this.cubeRotateStatus }); //记录动作状态
+                    if (this.statusCallBack != null && typeof (this.statusCallBack) == "function")
+                        this.statusCallBack(this.rollMoveStack.length);
+                    if (this.rollMoveStack.length == this.rollbackPoint)//判断当达到阀值时切换动作方向为回归
+                    {
+                        if (this.isRandomConfuse)
+                            this.autoPlay = false;//如果是随机打乱模式则终止
+                        else
+                            this.moveDirect = false;//否则反方向回归
+                    }
+
+                },
+                getXYByFaceCubes: function (faceCubes, index) {//获取当前当前索引对应的立方体所在面的行X列Y坐标
+                    var y = 1, x = 1;
+                    for (var i = 1, len = faceCubes.length; i <= len; i++) {
+                        if (faceCubes[i - 1].index == index)
+                            return { Y: y, X: x };
+                        x++;
+                        if (i % this.dimension == 0) {
+                            y++;
+                            x = 1;
+                        }
+
+                    }
+                },
+                RoateEvent: function (e) {
+                    var _this = cache.magicCube, positon, rotateTarget = {};
+                    //隐藏控制面板
+                    //this.parentNode.isFocus = false;
+                    //_this.hideController(this.parentNode.index, this.parentNode.face);
+                    //开始定位立方体
+                    var cubes = _this.getCubesByFace(this.parentNode.face);
+                    switch (this.parentNode.face) {
+                        case "back":
+                        case "front": positon = _this.getXYByFaceCubes(cubes, this.parentNode.index); rotateTarget.moveY = { rotateDirect: "rotateX", getFaceFun: _this.getXFace, index: positon.X }; rotateTarget.moveX = { rotateDirect: "rotateY", getFaceFun: _this.getYFace, index: positon.Y }; break;
+                        case "top":
+                        case "bottom": positon = _this.getXYByFaceCubes(cubes, this.parentNode.index); rotateTarget.moveY = { rotateDirect: "rotateX", getFaceFun: _this.getXFace, index: positon.X }; rotateTarget.moveX = { rotateDirect: "rotateZ", getFaceFun: _this.getZFace, index: positon.Y }; break;
+                        case "left":
+                        case "right": positon = _this.getXYByFaceCubes(cubes, this.parentNode.index); rotateTarget.moveY = { rotateDirect: "rotateZ", getFaceFun: _this.getZFace, index: positon.Y }; rotateTarget.moveX = { rotateDirect: "rotateY", getFaceFun: _this.getYFace, index: positon.X }; break;
+                    }
+                    //rotateTarget.moveY 表示沿相对于屏幕的纵向Y方向旋转，moveX表示沿相对于屏幕的横向X方向旋转
+                    _this.cubeRotateStatus = [];
+                    for (var i = 1; i <= _this.dimension; i++)
+                        _this.cubeRotateStatus[i - 1] = 0;
+                    _this.isRunning = 0;
+                    var angle, status;
+                    if (this.direct == "left" || this.direct == "right") {//横向旋转
+                        var leftOrright = this.parentNode.face == "left" || this.parentNode.face == "right"; //对于绕Y轴旋转的有点特殊跟正常方向相反
+                        if (this.direct == "left") {
+                            angle = leftOrright ? _this.angle : -_this.angle;
+                            status = leftOrright ? 1 : 2;
+                        } else {
+                            angle = leftOrright ? -_this.angle : _this.angle;
+                            status = leftOrright ? 2 : 1;
+                        }
+                        if (this.parentNode.face == "right" || this.parentNode.face == "back" || this.parentNode.face == "bottom") {//取反
+                            angle = -angle;
+                            status = 3 - status;
+                        }
+                        _this.rotateBox(angle, rotateTarget.moveX.rotateDirect, rotateTarget.moveX.index, rotateTarget.moveX.getFaceFun.call(_this, rotateTarget.moveX.index));
+                        _this.rotateFace = rotateTarget.moveX.rotateDirect;
+                        _this.cubeRotateStatus[rotateTarget.moveX.index - 1] = status;
+
+                    }
+                    else if (this.direct == "up" || this.direct == "down") {//纵向旋转
+                        if (this.direct == "up") {
+                            angle = _this.angle
+                            status = 1;
+                        } else {
+                            angle = -_this.angle;
+                            status = 2;
+                        }
+                        if (this.parentNode.face == "right" || this.parentNode.face == "back" || this.parentNode.face == "bottom") {//取反
+                            angle = -angle;
+                            status = 3 - status;
+                        }
+                        _this.rotateBox(angle, rotateTarget.moveY.rotateDirect, rotateTarget.moveY.index, rotateTarget.moveY.getFaceFun.call(_this, rotateTarget.moveY.index));
+                        _this.rotateFace = rotateTarget.moveY.rotateDirect;
+                        _this.cubeRotateStatus[rotateTarget.moveY.index - 1] = status;
+                    }
+                    _this.lock = true;
+                    setTimeout(_this.timerFun, 100);
+                    _this.rollMoveStack.push({ rotateFace: _this.rotateFace, cubeRotateStatus: _this.cubeRotateStatus }); //记录动作状态
+                    if (_this.statusCallBack != null && typeof (_this.statusCallBack) == "function")
+                        _this.statusCallBack(_this.rollMoveStack.length);
+                },
+                moveRollBackCube: function () {
+                    var record = this.rollMoveStack.pop(), getFaceFun;
+                    this.rotateFace = record.rotateFace;
+                    this.isRunning = 0;
+                    switch (record.rotateFace) {
+                        case "rotateX": getFaceFun = this.getXFace; break;
+                        case "rotateY": getFaceFun = this.getYFace; break;
+                        case "rotateZ": getFaceFun = this.getZFace; break;
+                    }
+                    this.cubeRotateStatus = [];
+                    for (var i = 0, len = record.cubeRotateStatus.length; i < len; i++) {
+                        var dimensionIndex = i + 1, status = record.cubeRotateStatus[i];
+                        if (status == 1) {
+                            this.cubeRotateStatus.push(2); //1 变2，2变1
+                            this.rotateBox(-this.angle, record.rotateFace, dimensionIndex, getFaceFun.call(this, dimensionIndex)); //反向转动90
+                        }
+                        else if (status == 2) {
+                            this.cubeRotateStatus.push(1); //1 变2，2变1
+                            this.rotateBox(this.angle, record.rotateFace, dimensionIndex, getFaceFun.call(this, dimensionIndex)); //反向转动90
+                        }
+                        else {
+                            this.cubeRotateStatus.push(0);
+                        }
+                    }
+                    setTimeout(this.timerFun, 100);
+                    if (this.statusCallBack != null && typeof (this.statusCallBack) == "function")
+                        this.statusCallBack(this.rollMoveStack.length);
+                    if (this.rollMoveStack.length == 0)//判断当达到0时切换动作为正向随机
+                        this.moveDirect = true;
+                },
+                intersect: function (source, target) {
+                    var data = [];
+                    for (var i = 0, len = source.length; i < len; i++) {
+                        var index = target.indexOf(source[i]);
+                        if (index >= 0)
+                            data.push(source[i])
+                    }
+                    return data;
+                },
+                orderByDesc: function (datas) {
+                    var temp;
+                    for (var i = 0; i < datas.length - 1; i++) {
+                        for (var j = i + 1; j < datas.length; j++) {
+                            if (parseFloat(datas[i].index) < parseFloat(datas[j].index)) {
+                                temp = datas[i];
+                                datas[i] = datas[j];
+                                datas[j] = temp;
+                            }
+                        }
+                    }
+                    return datas;
+                },
+                getSideBackGround: function (sideFaces, face) {
+                    var backGrounds = [];
+                    for (var i = 0, len = sideFaces.length; i < len; i++) {
+                        backGrounds.push(sideFaces[i][face].style.background);
+                    }
+                    return backGrounds;
+                },
+                setRotateDirectSideBackGround: function (faceCubes, sideFace, offset, status) {
+                    var oldSides = this.getSideCubes(faceCubes, 0), backColor = [];
+                    if (oldSides == null)
+                        return;
+                    var offsetNIndex, offsetPIndex;
+                    for (var j = 0; j < 4; j++) {
+                        offsetPIndex = (j - offset + 4) % 4;
+                        offsetNIndex = (j + offset) % 4;
+                        var offsetIndex;
+                        if (this.rotateFace == "rotateY") {
+                            offsetIndex = status == 1 ? offsetPIndex : offsetNIndex;
+                        }
+                        else {
+                            offsetIndex = status == 2 ? offsetPIndex : offsetNIndex;
+                        }
+                        backColor[j] = this.getSideBackGround(oldSides[offsetIndex], sideFace[offsetIndex]);
+                    }
+                    for (var j = 0; j < 4; j++) {
+                        for (var k = 0; k < oldSides[j].length; k++) {
+                            oldSides[j][k][sideFace[j]].style.background = backColor[j][k];
+                        }
+                    }
+                },
+                setRotateOtherDirectSideBackGround: function (faceCubes, otherFace, offset, status) {
+                    var oldSides = [], backColor = [];
+                    var offsetNIndex, offsetPIndex;
+                    for (var i = 0; i <= parseInt(this.dimension / 2) - 1; i++) {
+                        oldSides = this.getSideCubes(faceCubes, i), backColor = [];
+                        for (var j = 0; j < 4; j++) {
+                            offsetPIndex = (j - offset + 4) % 4;
+                            offsetNIndex = (j + offset) % 4;
+                            var offsetIndex;
+                            if (this.rotateFace == "rotateY") {
+                                offsetIndex = status == 1 ? offsetPIndex : offsetNIndex;
+                            }
+                            else {
+                                offsetIndex = status == 2 ? offsetPIndex : offsetNIndex;
+                            }
+                            backColor[j] = this.getSideBackGround(oldSides[offsetIndex], otherFace);
+                        }
+                        var hasManaged = [];
+                        for (var j = 0; j < 4; j++) {
+                            for (var k = 0; k < oldSides[j].length; k++) {
+                                if (hasManaged.indexOf(oldSides[j][k].index) < 0) {
+                                    oldSides[j][k][otherFace].style.background = backColor[j][k];
+                                    hasManaged.push(oldSides[j][k].index);
+                                }
+                            }
+                        }
+                    }
+
+                },
+                animationEnd: function () {
+                    var offset = this.angle / 90, faceCubes = [], otherFace;
+                    var zSideFace = ["top", "left", "bottom", "right"], xSideFace = ["back", "top", "front", "bottom"], ySideFace = ["back", "left", "front", "right"], sideFace = [];
+                    for (var i = 0, len = this.cubeRotateStatus.length; i < len; i++) {
+                        var status = this.cubeRotateStatus[i];
+                        if (status) {
+                            var dimensionIndex = i + 1;
+                            switch (this.rotateFace) {
+                                case "rotateX": faceCubes = this.getXFace(dimensionIndex); sideFace = xSideFace; if (dimensionIndex == 1) otherFace = "left"; else if (dimensionIndex == this.dimension) otherFace = "right"; break;
+                                case "rotateY": faceCubes = this.getYFace(dimensionIndex); sideFace = ySideFace; if (dimensionIndex == 1) otherFace = "top"; else if (dimensionIndex == this.dimension) otherFace = "bottom"; break;
+                                case "rotateZ": faceCubes = this.getZFace(dimensionIndex); sideFace = zSideFace; if (dimensionIndex == 1) otherFace = "back"; else if (dimensionIndex == this.dimension) otherFace = "front"; break;
+                            }
+                            this.setRotateDirectSideBackGround(faceCubes, sideFace, offset, status);
+                            if (dimensionIndex == 1 || dimensionIndex == this.dimension)
+                                this.setRotateOtherDirectSideBackGround(faceCubes, otherFace, offset, status);
+                        }
+
+                    }
+                    //  console.info(this.rollMoveStack.length + "," + this.moveDirect);
+                    if (this.autoPlay) {
+                        if (this.moveDirect)
+                            this.moveMagicCube();
+                        else
+                            this.moveRollBackCube();
+                    }
+                    else {
+                        this.lock = false;
+                    }
+                    // alert("运行结束");
+                },
+                bindAnimationEvent: function () {
+                    var loopMove = function () {
+                        cache.magicCube.isRunning--; //由于按组转动，顾要等组成员都完成再进行新的动画
+                        if (cache.magicCube.isRunning == 0)
+                            cache.magicCube.animationEnd();
+                    }
+                    for (var i = 0; i < this.count; i++) {
+
+                        this.prefixedEvent(this.cubes[i].Box, "AnimationEnd", loopMove, true);
+                    }
+                    cache.magicCube = this; //缓存，避免内存泄露
+                },
+                rotateBox: function (angle, rotateDirect, faceIndex, cubes) {
+                    if (cubes != null) {
+                        var startStatus = rotateDirect + "(0deg)", endStatus = rotateDirect + "(" + angle + "deg)";
+                        // this.changeAnimationStatus("mydhua", startStatus, endStatus)
+                        for (var i = 0, len = cubes.length; i < len; i++) {
+                            var ruleName = "roateRule" + faceIndex + i;
+                            this.isRunning++; //组成员转动统计
+                            //if (cubes[i].rotateTransfrom != "")
+                            //    startStatus = cubes[i].rotateTransfrom;
+                            cubes[i].rotateTransfrom = endStatus;
+                            if (this.findKeyframesRule(ruleName) == null)
+                                this.createKeyframesRule(ruleName, cubes[i].intalTransform + " " + startStatus, cubes[i].intalTransform + " " + endStatus);
+                            else
+                                this.changeAnimationStatus(ruleName, cubes[i].intalTransform + " " + startStatus, cubes[i].intalTransform + " " + endStatus);
+                            cubes[i].Box.style[this.browserPrefix + "AnimationName"] = "none";
+                            this.cubeMoveQueue.push({ cube: cubes[i], rule: ruleName });
+                        }
+                    }
+                },
+                findKeyframesRule: function (rule) {
+                    var ruleName = this.browserPrefix == "" ? "KEYFRAMES_RULE" : this.browserPrefix.toUpperCase() + "_KEYFRAMES_RULE";
+                    var ss = document.styleSheets;
+                    for (var i = 0; i < ss.length; ++i) {
+                        for (var j = 0; j < ss[i].cssRules.length; ++j) {
+                            if (ss[i].cssRules[j].type == window.CSSRule[ruleName] && ss[i].cssRules[j].name == rule) { return ss[i].cssRules[j]; }
+                        }
+                    }
+                    return null;
+                },
+                createKeyframesRule: function (rule, startStatus, endStatus) {
+                    var prefix = this.browserPrefix == "" ? "" : "-" + this.browserPrefix + "-";
+                    var sheet;
+                    if (document.styleSheets.length < 1)
+                        sheet = this.createSheets();
+                    else
+                        sheet = document.styleSheets[0];
+                    var selectorText = "@" + prefix + "keyframes " + rule;
+                    var cssText = "0% { " + prefix + "transform: " + startStatus + "; } 100% { " + prefix + "transform: " + endStatus + "; }"
+                    if (sheet.insertRule) {
+                        sheet.insertRule(selectorText + "{" + cssText + "}", 0);
+                    } else if (sheet.addRule) {//兼容IE
+                        sheet.addRule(selectorText, cssText, 0);
+                    }
+                },
+                removeKeyframeRule: function (keyframes) {
+                    var length = keyframes.cssRules.length;
+                    var keyframeString = [];
+                    for (var i = 0; i < length; i++) {
+                        keyframeString.push(keyframes.cssRules[i].keyText);
+                    }
+                    //移除动画帧规则
+                    for (var i = 0, j = length; i < j; i++) {
+                        if (this.browserPrefix == "webkit" || this.browserPrefix == "Moz")
+                            keyframes.deleteRule(keyframeString[i]);
+                        else
+                            keyframes.deleteRule(i); //兼容IE
+                    }
+                },
+                changeAnimationStatus: function (animationName, startStatus, endStatus) {
+                    var keyframes = this.findKeyframesRule(animationName);
+                    this.removeKeyframeRule(keyframes);
+                    //重新设置帧规则
+                    var prefix = this.browserPrefix == "" ? "" : "-" + this.browserPrefix + "-";
+                    keyframes.appendRule("0% { " + prefix + "transform: " + startStatus + "; }");
+                    keyframes.appendRule("100% { " + prefix + "transform: " + endStatus + "; }");
+                },
+                createSheets: function () {
+                    // 创建 <style> 标签
+                    var style = document.createElement("style");
+                    // 可以添加一个媒体(/媒体查询,media query)属性
+                    // style.setAttribute("media", "screen")
+                    // style.setAttribute("media", "only screen and (max-width : 1024px)")
+                    // 对WebKit hack :(
+                    style.appendChild(document.createTextNode(""));
+                    // 将 <style> 元素加到页面中
+                    document.head.appendChild(style);
+                    return style.sheet;
+                },
+                prefixedEvent: function (element, type, callback, isAdd) {
+                    var pfx = ["webkit", "moz", "MS", "o", ""];
+                    for (var p = 0; p < pfx.length; p++) {
+                        if (!pfx[p]) type = type.toLowerCase();
+                        if (isAdd)
+                            element.addEventListener(pfx[p] + type, callback, false);
+                        else
+                            element.removeEventListener(pfx[p] + type, callback, false);
+                    }
+                },
+                start: function () {
+                    this.css();
+                    this.prefix();
+                    this.create3dScene();
+                    this.createMagicCube();
+                    this.drawBackGroundColor();
+                    this.bindAnimationEvent(); //绑定动画播放完成事件
+                    if (this.autoPlay)
+                        this.moveMagicCube();     //立即开始动画
+                    // this.timer = setInterval(this.timerFun, 100);
+                },
+                timerFun: function () {
+                    var _this = cache.magicCube;
+                    if (_this.isRunning >= _this.dimension) {
+                        for (var i = 0, len = _this.cubeMoveQueue.length; i < len; i++) {
+                            var animation = _this.cubeMoveQueue.shift();
+                            animation.cube.Box.style[_this.browserPrefix + "Animation"] = animation.rule + " " + _this.delay + "s linear 1"; // Chrome, Safari 和 Opera 代码
+                        }
+                    }
+                },
+                css: function () {
+                    var d = document,
+                        doc = d.documentElement,
+                        body = d.body;
+                    this.clientWidth = doc.clientWidth;
+                    this.clientHeight = doc.clientHeight;
+                    if (d.compatMode != "CSS1Compat") {
+                        this.clientWidth = body.clientWidth;
+                        this.clientHeight = body.clientHeight;
+                    }
+                    // console.log(this.width +'////'+ this.height)
+                },
+                random: function (min, max) {
+                    return (Math.random() * (max - min + 1) + min) >> 0;
+                },
+                prefix: function () {
+                    var N = navigator.appName, ua = navigator.userAgent, tem;
+                    var M = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+                    if (M && (tem = ua.match(/version\/([\.\d]+)/i)) != null) M[2] = tem[1];
+                    M = M ? [M[1], M[2]] : [N, navigator.appVersion, '-?'];
+                    M = M[0];
+                    if (M == "Chrome") { this.browserPrefix = "webkit"; }
+                    if (M == "Firefox") { this.browserPrefix = "Moz"; }
+                    if (M == "Safari") { this.browserPrefix = "webkit"; }
+                    if (M == "MSIE") { this.browserPrefix = "ms"; }
+                }
+
+            };
+        }(window));
+        //自定义简单筛选器
+        (function () {
+            var window = this,
+            selector = window.$ = function (sign, type) {
+                return new extend.init(sign, type);
+            };
+            extend = $.prototype = {
+                init: function (sign, type) {
+                    this.targets = [];
+                    switch (type) {
+                        case "id": this.targets.push(document.getElementById(sign)); break;
+                        case "name": this.targets = document.getElementsByName(sign); break;
+                        case "class": this.targets = document.getElementsByClassName(sign); break;
+                        case "tag": this.targets = document.getElementsByTagName(sign); break;
+                    }
+                    this.each(function (item, i) {
+                        this[i] = item;
+                    })
+                    return this;
+                },
+                val: function (value) {
+                    if (value == undefined)
+                        return this.targets[0].value;
+                    else if (this.targets != null)
+                        this.each(function (item) {
+                            if (item.tagName== "INPUT") {
+                                item.value = value;
+                            }
+                        });
+                },
+                Number: function () {
+                    return parseInt(this.val())
+                },
+                each: function (fun) {
+                    if (fun != undefined && typeof (fun) == "function") {
+                        for (var i = 0, len = this.targets.length; i < len; i++) {
+                            fun.call(this, this.targets[i], i)
+                        }
+                    }
+                },
+                setClass: function (className) {
+                    if (this.targets != null)
+                        this.each(function (item) {
+                            item.className = className;
+                        });
+                },
+                addClass: function (className) {
+                    if (this.targets != null)
+                        this.each(function (item) {
+                            item.classList.add(className);
+                        });
+                },
+                removeClass: function (className) {
+                    if (this.targets != null)
+                        this.each(function (item) {
+                            item.classList.remove(className);
+                        });
+                }
+            };
+            extend.init.prototype = extend;//实现了可扩展性
+        })();
+    </script>
+</head>
+<body style="background-color: black">
+    <style type="text/css">
+        body
+        {
+            margin: 0;
+            padding: 5px;
+            font-family: 微软雅黑;
+            font-size: 14px;
+        }
+
+        .head
+        {
+            border: 1px solid #333;
+            background-color: #222;
+            color: #aaa;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 5px;
+            top: 0;
+        }
+
+        #container
+        {
+            position: relative;
+            height: 600px;
+            margin: 0 auto;
+            overflow: auto;
+            padding: 0;
+            top: 0;
+            clear: both;
+            background-color: #111;
+        }
+
+        .head .bind
+        {
+            float: left;
+            width: 163px;
+            margin-top: 5px;
+            border-right-color: #333;
+            border-right-style: solid;
+            border-right-width: 1px;
+        }
+        .head .bind .status
+        {
+            border: none;
+        }
+        .head .bind .left
+        {
+            text-align: right;
+            float: left;
+            width: 87px;
+            overflow: hidden;
+            padding-right: 3px;
+        }
+
+        .head .bind .right
+        {
+            text-align: left;
+            float: left;
+            width: 68px;
+            padding: 0;
+            padding: 0 5px 0 0;
+        }
+
+        .head .bind .right input
+        {
+            width: 40px;
+            text-align: center;
+            background-color: #bbb;
+            margin-right: 3px;
+            border: 1px solid #dedede;
+        }
+
+        .head .bind .button
+        {
+            text-decoration: none;
+            background-color: #005588;
+            color: #bbf;
+            border: 1px solid #0066ff;
+            padding: 1px 12px 1px 12px;
+            margin-right: 2px;
+        }
+
+        .head .bind .disbutton
+        {
+            text-decoration: none;
+            background-color: #555;
+            color: #bbb;
+            border: 1px solid #777;
+            padding: 1px 12px 1px 12px;
+            margin-right: 2px;
+        }
+
+        .head .bind .button:hover
+        {
+            background: #0088aa;
+            color: #eee;
+        }
+    </style>
+    <div id="head" class="head">
+        <div class="bind">
+            <div class="left">
+                魔方阶数:
+            </div>
+            <div class="right">
+                <input id="dimension" type="text" value="3" />
+            </div>
+        </div>
+        <div class="bind">
+            <div class="left">
+                立方体宽度:
+            </div>
+            <div class="right">
+                <input id="width" type="text" value="100" />px
+            </div>
+        </div>
+        <div class="bind">
+            <div class="left">
+                立方体间隔:
+            </div>
+            <div class="right">
+                <input id="margin" type="text" value="10" />px
+            </div>
+        </div>
+        <div class="bind">
+            <div class="left">
+                透明度:
+            </div>
+            <div class="right">
+                <input id="opacity" type="text" value="90" />%
+            </div>
+        </div>
+        <div class="bind">
+            <div class="left">
+                打乱步数:
+            </div>
+            <div class="right">
+                <input id="rollbackPoint" type="text" value="10" />
+            </div>
+        </div>
+        <div class="bind">
+            <input id="autoPlay" type="radio" value="0" />自动播放<input id="operater" type="radio"
+                value="1" />手动操作
+        </div>
+        <div class="bind" style="width: 254px">
+            <a class="button" id="reset" href="javascript:void(0)">重 置</a> <a class="button"
+                id="random" href="javascript:void(0)">随机打乱</a> <a class="button" id="back" href="javascript:void(0)">
+                    返回上一步</a>
+        </div>
+        <div class="bind" style="border: none;">
+            <div class="left">
+                已走步数:
+            </div>
+            <div class="right">
+                <input id="steps" readonly type="text" value="0" />
+            </div>
+        </div>
+    </div>
+    <div id="container" title="可按下鼠标移动来旋转魔方">
+    </div>
+    <script>
+        var cube = null;
+        var autoPlay = true;
+        var container = $("container", "id")[0];
+        var screenHeight = document.compatMode != "CSS1Compat" ? document.body.clientHeight : document.documentElement.clientHeight;
+        var Height = screenHeight - document.getElementById("head").offsetHeight - 10;
+        container.style.height = Height + "px";
+        var inputs = $("input", "tag");
+        //输入检查事件
+        function inputBlur(e) {
+            var patten = new RegExp(/^[0-9]*[0-9][0-9]*$/);
+            if (!patten.test(this.value))
+            { this.value = ""; return }
+            switch (this.id) {
+                case "dimension": if (this.value < 1 || this.value > 10) { this.value = ""; return } break;
+                case "width": if (this.value < 10 || this.value > 1000) { this.value = ""; return } break;
+                case "margin": if (this.value > 1000) { this.value = ""; return } break;
+                case "opacity": if (this.value > 100) { this.value = ""; return } break;
+                case "rollbackPoint": if (this.value > 100) { this.value = ""; return } break;
+
+            }
+            build();
+        }
+        //自动手动事件
+        function radioChange(select) {
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i] != select) {
+                    radios[i].checked = false;
+                }
+            }
+            if (select.value == "0") {
+                $("a", "tag").setClass("disbutton");
+                $("reset", "id")[0].removeEventListener("click", resetCube, false);
+                $("random", "id")[0].removeEventListener("click", randomConfuse, false);
+                $("back", "id")[0].removeEventListener("click", backLastStep, false);
+                autoPlay = true;
+            }
+            else {
+                $("a", "tag").setClass("button");
+                $("reset", "id")[0].addEventListener("click", resetCube, false);
+                $("random", "id")[0].addEventListener("click", randomConfuse, false);
+                $("back", "id")[0].addEventListener("click", backLastStep, false);
+                autoPlay = false;
+            }
+            if (cube != null) {
+                cube.autoPlay = autoPlay;
+                cube.delay = autoPlay ? 2 : 0.5;
+                if (autoPlay) {
+                    cube.moveMagicCube();
+                    cube.isRandomConfuse = false;
+                }
+            }
+
+        }
+        //重置事件
+        function resetCube(e) {
+            autoPlay = false;
+            build();
+        }
+        //随机打乱事件
+        function randomConfuse(e) {
+            if (cube != null) {
+                cube.isRandomConfuse = true;
+                cube.autoPlay = true;
+                cube.delay = 0.5;
+                cube.rollbackPoint = $("rollbackPoint", "id").Number();
+                cube.rollMoveStack = [];
+                cube.moveMagicCube();
+            }
+        }
+        //返回上一步事件
+        function backLastStep(e) {
+            if (cube != null) {
+                cube.moveRollBackCube();
+            }
+        }
+        var radios = [];
+        inputs.each(function (item) {
+            if (item.type == "text")
+                item.addEventListener("change", inputBlur, false);
+            else if (item.type == "radio") {
+                item.addEventListener("change", function (e) { radioChange(this); }, false);
+                radios.push(item);
+            }
+        });
+        var steps_input = $("steps", "id");
+        function statusCallBack(steps) {
+            steps_input.val(steps);
+        }
+        function build() {
+            if (cube != null)
+                container.removeChild(cube.Scene);
+            var radio;
+            cube = new magicCube({ parent: container, dimension: $("dimension", "id").Number(), cubWidth: $("width", "id").Number(), cubHeight: $("width", "id").Number(), marginLeft: $("margin", "id").Number(), marginTop: $("margin", "id").Number(), marginZ: $("margin", "id").Number(), cubZ: $("width", "id").Number(), opacity: $("opacity", "id").Number() / 100, delay: autoPlay ? 2 : 0.5, autoPlay: autoPlay, rollbackPoint: $("rollbackPoint", "id").Number(), statusCallBack: statusCallBack });
+            steps_input.val(0);
+
+        }
+        if (autoPlay) {
+            radio = $("autoPlay", "id")[0];
+            radio.checked = true;
+        }
+        else {
+            radio = $("operater", "id")[0]
+            radio.checked = true;
+        }
+        radioChange(radio);
+        build();
+    </script>
+</body>
+</html>

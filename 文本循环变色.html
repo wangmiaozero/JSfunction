@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="utf-8"> 
+<meta name="author" content="http://www.softwhy.com/" /> 
+<title>学习前端</title> 
+<script type="text/javascript"> 
+var message="web前端开发"; 
+var baseColor="green";
+var textColor="red"; 
+var secondTextColor="blue"; 
+var speed=100;
+var letters=8;
+var secondLetters=2; 
+var pause=0;
+var count=0; 
+var timer=null;
+for(m=0;m<message.length;m++){
+  document.write('<span id="light'+m+'">'+message.charAt(m)+'</span>');
+}
+function $(id){ 
+  return document.getElementById(id); 
+}
+function done(){ 
+  if(count==0){ 
+    for(var m=0;m<message.length;m++){
+   $("light"+m).style.color=baseColor;
+    }   
+  } 
+
+  $("light"+count).style.color=textColor; 
+
+  if(count>letters-1){
+    $("light"+(count-letters)).style.color=secondTextColor;
+  } 
+
+  if(count>(letters+secondLetters)-1){
+    $("light"+(count-letters-secondLetters)).style.color=baseColor;
+  } 
+
+  if(count<message.length-1){
+    count++
+  }  
+  else{ 
+    count=0
+    clearInterval(timer) 
+    setTimeout("begindone()",pause) 
+    return 
+  } 
+}
+function begindone(){ 
+  timer=setInterval("done()",speed); 
+}
+window.onload=function(){
+  begindone();
+}
+</script> 
+</head> 
+<body> 
+<div> 
+</div> 
+</body> 
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+ .button {
+  display: block;
+  width: 400px;
+  height: 120px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #000000;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2) inset;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.button span {
+  display: block;
+  position: absolute;
+  top: 6px;
+  width: 194px;
+  height: 108px;
+  background-color: #1c1d1f;
+  -webkit-transition: -webkit-transform 300ms ease, box-shadow 300ms ease;
+          transition: transform 300ms ease, box-shadow 300ms ease;
+}
+.button span:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+  font-weight: 800;
+  font-size: 48px;
+  -webkit-transition: text-shadow 800ms ease 100ms, color 800ms ease 100ms;
+          transition: text-shadow 800ms ease 100ms, color 800ms ease 100ms;
+}
+.button span:after {
+  content: "no";
+  width: 4px;
+  height: 108px;
+  position: absolute;
+  top: 0;
+  background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.5) 0%, transparent 50%);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.5) 0%, transparent 50%);
+  -webkit-transition: opacity 300ms ease;
+          transition: opacity 300ms ease;
+}
+    </style>
+</head>
+<body>
+    <label class="button">
+        <input type="checkbox">
+        <span ></span>
+        <span>关</span>
+      </label>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>瓶子里的水</title>
+    <link rel="stylesheet" href="css/base.css">
+    <style type="text/css">
+        .css-jar{
+            position:relative;
+            width: 195px;
+            margin: 150px auto;
+            text-align: center;
+            transform: scale(2.5);
+        }
+        .css-jar .pk{
+            background: radial-gradient(circle at 50% 55%, rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9) 40%, rgba(225, 238, 255, 0.8) 60%, rgba(43, 130, 255, 0.4));
+            width:40px;
+            height: 10px;
+            margin: 0 auto -1px auto;
+            border-right:1px solid rgb(43,130,255);
+            border-left:1px solid rgb(43,130,255);
+            border-radius:19px;
+        }
+        .css-jar .ps{
+            width: 34px;
+            height: 46px;
+            margin: 0 auto -7px auto;
+            z-index: 7;
+            position: relative;
+            border-right:1px solid rgb(43,130,255);
+            border-left:1px solid rgb(43,130,255);
+            background: radial-gradient(circle at 50% 55%, rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9) 40%, rgba(225, 238, 255, 0.8) 60%, rgba(43, 130, 255, 0.4));
+        }
+        .css-jar .pj{
+            margin:auto;
+            width: 117px;
+            height:97px;
+            border-radius:50%;
+            border:1px solid rgb(43,130,255);
+            border-top: 0 solid #fff;
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+            background: radial-gradient(circle at 50% 55%, rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9) 40%, rgba(225, 238, 255, 0.8) 60%, rgba(43, 130, 255, 0.4));
+        }
+        .css-jar .css-liquid{
+            height: 39px;
+            background-color: rgb(53,238,251);
+            position: absolute;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+        .css-jar .css-wave{
+            width: 58px;
+            height: 19px;
+            position: absolute;
+            background: rgb(53,238,251);
+            left:0;
+            top:56px;
+            border-radius:50%;
+            animation: css-wave 1.15s linear 1.15s infinite alternate;
+            -o-animation: css-wave 1.15s linear 1.15s infinite alternate;
+            -ms-animation: css-wave 1.15s linear 1.15s infinite alternate;
+            -moz-animation: css-wave 1.15s linear 1.15s infinite alternate;
+            -webkit-animation: css-wave 1.15s linear 1.15s infinite alternate;
+        }
+        .css-jar .css-wave + .css-wave{
+            left: auto;
+            right: 0;
+        }
+        .css-jar .css-bubble{
+            left: 15px;
+            top: 49px;
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle at 50% 55%, rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9) 40%, rgba(225, 238, 255, 0.8) 60%, rgba(43, 130, 255, 0.4));
+            border-radius:50%;
+            animation: css-bounce 2.65s linear 0s infinite alternate;
+            -o-animation: css-bounce 2.65s linear 0s infinite alternate;
+            -ms-animation: css-bounce 2.65s linear 0s infinite alternate;
+            -moz-animation: css-bounce 2.65s linear 0s infinite alternate;
+            -webkit-animation: css-bounce 2.65s linear 0s infinite alternate;
+        }
+        .css-jar .css-bubble + .css-bubble{
+            position: absolute;
+            left: 73px;
+            top: 39px;
+            animation-duration:3.45s;
+            -o-animation-duration:3.45s;
+            -ms-animation-duration:3.45s;
+            -moz-animation-duration:3.45s;
+            -webkit-animation-duration:3.45s;
+        }
+        .css-bubble2{bottom: 0 !important; left: 100px !important;}
+        .css-bubble3{bottom: 0 !important; left: 50px !important;}
+        .css-bubble4{bottom: 0 !important; left: 30px !important;}
+        @keyframes css-wave{
+            from{
+                transform: translateX(97px);
+            }
+            to{
+                transform: translateX(-97px);
+            }
+        }
+        @keyframes css-bounce{
+            0%{
+                transform: translate(5px,15px);
+            }
+            50%{
+                transform: translate(0px,-15px);
+            }
+            100%{
+                transform: translate(-5px,-36px);
+                opacity: 1;
+            }
+        }
+        @keyframes css-buble{
+            0%{
+                transform: translate(3px,10px);
+            }
+            25%{
+                transform: translate(0px,0px);
+            }
+            50%{
+                transform: translate(-3px,-24px);
+            }
+            75%{
+                transform: translate(0px,-49px);
+                opacity: 1;
+            }
+            100%{
+                transform: translate(3px,-97px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="clearfix box">
+    <div class="css-jar">
+        <div class="pk"></div>
+        <div class="ps"></div>
+        <div class="pj">
+            <div class="css-liquid"></div>
+            <div class="css-wave"></div>
+            <div class="css-wave"></div>
+            <div class="css-bubble"></div>
+            <div class="css-bubble css-bubble2"></div>
+            <div class="css-bubble css-bubble3"></div>
+            <div class="css-bubble css-bubble4"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
