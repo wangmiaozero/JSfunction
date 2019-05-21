@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>文章类的显示隐藏</title>
+        <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0
+            }
+
+            div {
+                -webkit-transform: translate(90deg);
+                transform: translate(90deg);
+                width: 100vw
+            }
+
+            div .header {
+                line-height: 13.33333vw;
+                height: 13.33333vw;
+                color: #333;
+                font-family: "微软雅黑";
+                display: flex;
+                justify-content: center;
+                align-items: center
+            }
+
+            div .header .left {
+                font-size: 5.33333vw;
+                float: left;
+                margin-left: 3%
+            }
+
+            div .header .center {
+                font-size: 4vw;
+                margin-left: -3%;
+                width: 100%;
+                text-align: center;
+                color: #333
+            }
+
+            .content {
+                -webkit-transform: translate(90deg);
+                transform: translate(90deg);
+                width: 100vw
+            }
+
+            .content ul {
+                list-style: none;
+                border-top: .26667vw solid #e6e6e6;
+                margin: 0;
+                padding: 0
+            }
+
+            .content ul li {
+                line-height: 13.33333vw;
+                border-bottom: 1px solid #e6e6e6;
+                font-size: 4vw;
+                left: 4vw;
+                right: 0;
+                position: relative
+            }
+
+            .content ul li ul {
+                display: none
+            }
+
+            .content ul li ul li {
+                line-height: 2;
+                font-size: 3.46667vw;
+                left: 0;
+                padding: 2.66667vw 0
+            }
+
+            .content ul li ul li>P {
+                font-size: 3.46667vw;
+                line-height: 1.6;
+                color: #999;
+                margin: 0 5.06667vw 0 0
+            }
+
+            .content ul li ul li>P span {
+                border: 1px solid #7c7c7c;
+                border-radius: 13.33333vw;
+                width: 2.66667vw;
+                height: 2.66667vw
+            }
+
+            .content ul li ul li img {
+                width: 4.26667vw;
+                height: 4.26667vw;
+                vertical-align: sub;
+                padding-right: 2.66667vw
+            }
+
+            .content ul li ul li:after {
+                border: 0;
+                display: none !important
+            }
+
+            .content ul li ul li:last-child {
+                border: 0
+            }
+
+            .content ul>li:after {
+                content: '';
+                display: block;
+                width: 2vw;
+                height: 2vw;
+                border-top: .26667vw solid #7c7c7c;
+                border-right: .26667vw solid #7c7c7c;
+                -webkit-transform: rotate(135deg);
+                transform: rotate(135deg);
+                position: absolute;
+                right: 8vw;
+                top: 5.33333vw;
+                transition: -webkit-transform .3s;
+                transition: transform .3s;
+                transition: transform .3s, -webkit-transform .3s
+            }
+
+            .content ul>li.tarns:after {
+                -webkit-transform: rotate(315deg);
+                transform: rotate(315deg)
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div class="menu-list" id="MenuList">
+                <ul id="menu">
+                    <li class="">
+                        账号问题<ul style="display: none;">
+                            <li>
+                                <div> ? 如何注册</div>
+                                <p>点击我--顶部个人信息--点击未认证--填写实名认证信息--等待审核</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>收件派件<ul style="display: none;">
+                            <li>
+                                <div>? 如何入库</div>
+                                <p>单一上传:点击入库--选择快递公司--输入到付金额(非到付件不用输入)--确认货号--扫描运单号--扫描手机号--入库成功</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>优惠券<ul style="display: none;">
+                            <li>
+                                <div> ? 如何优惠</div>
+                                <p>优先自动使用优惠券,此次短信费用为0,当没有优惠券时,正常扣除短信费</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        //阻止冒泡事件方法
+        function stopPropagation(e) {
+            e = e || window.event;
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            } else {
+                e.cancelBubble = true;
+            }
+        }
+        /*二级订单*/
+        function hiddenByAttribute(attr) {
+            document.querySelectorAll('[' + attr + ']').forEach(ele => {
+                ele.removeAttribute(attr);
+                ele.style.display = 'none';
+            });
+        }
+
+        function removeClass(cls) {
+            cls = '.' + cls.replace('.', '');
+            document.querySelectorAll(cls).forEach(ele => {
+                ele.classList.remove(cls.replace('.', ''));
+            });
+        }
+        var menuUl = document.getElementById('menu');
+        var menuLi = menuUl.children;
+        var status = '';
+        for (let i = 0; i < menuLi.length; i++) {
+            menuLi[i].addEventListener('click', () => {
+                console.log(menuLi);
+                status = menuLi[i].children[0].style.display;
+                hiddenByAttribute('_show');
+                removeClass('tarns')
+                if (status == 'none') {
+                    menuLi[i].children[0].style.display = 'block';
+                    menuLi[i].classList.add('tarns');
+                    menuLi[i].children[0].setAttribute('_show', 1);
+                }
+                menuLi[i].classList[status == 'none' ? 'add' : 'remove']('tarns');
+            })
+        }
+    </script>
+</html>

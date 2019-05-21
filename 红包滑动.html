@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请好友领红包</title>
+    <style>
+        body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+address, cite, dfn, em, var { font-style:normal; }
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
+small{ font-size:12px; }
+ul, ol { list-style:none; }
+a { text-decoration:none; }
+a:hover { text-decoration:underline; }
+sup { vertical-align:text-top; }
+sub{ vertical-align:text-bottom; }
+legend { color:#000; }
+fieldset, img { border:0; }
+button, input, select, textarea { font-size:100%; }
+table { border-collapse:collapse; border-spacing:0; } 
+html,body{
+    width:100%;
+    background:#6659F0;
+}
+.wrap{
+    width:100%;
+}
+.banner{
+    width:100%;
+}
+.banner>img{
+    width:100%;
+    display:block;
+}
+.topmain{
+    font-size: 0.3rem;
+    margin:0.3rem;
+    background:#fff;
+    box-shadow: 0 2px 4px 0 rgba(26,0,124,0.30);
+    border-radius: 10px;
+    padding: 0.03rem;
+    color:#502DDB;
+    position: relative;
+    top:-0.5rem;
+}
+.top_btn{
+    position: absolute;
+    top:-0.4rem;
+    background:#fff;
+    width:2.5rem;
+    box-shadow: 0 2px 8px 0 rgba(69,105,255,0.66);
+    border-radius: 100px;
+    height:0.6rem;
+    line-height: 0.6rem;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+    left:50%;
+    transform: translateX(-50%);
+}
+.top_btn>img{
+    width:0.6rem;
+    float: left;
+    display:block;
+    margin-top:0.05rem;
+    padding-left:0.2rem;
+}
+.tit_p{
+    display:flex;
+    border-radius: 10px;
+    border:1px solid #CDC4F5;
+    padding:0.2rem;
+}
+.tit_p>li{
+    flex:1;
+    text-align: center;
+    line-height: 0.6rem;
+}
+.p1{
+    font-size:0.32rem;
+    font-weight: bold;
+}
+.p2{
+    font-size: 0.28rem;
+}
+/* 轮播 */
+.swiper-container {
+    width: 100%;
+    /* background: #ccc; */
+    font-size:0.34rem;
+    color:#fff;
+    top: -0.5rem;
+} 
+.swiper-slide{
+    width:50%;
+    margin:0.3rem 0;
+    /* background: #fff; */
+    text-align: center;
+    transition: .3s;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.swiper-button-next{
+    display: none;
+}
+.per{
+    position: absolute;
+    top:50%;
+    width:100%;
+    text-align: center;
+    font-weight: bold;
+}
+.swiper-slide-prev, .swiper-slide-next{
+    transform: scale(0.9);
+}
+.swiper-slide-next::after, .swiper-slide-prev::after{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .3);
+    }
+.swiper-slide-active{
+    transform: scale(1.1);
+}
+.swiper-slide>.hb{
+      width:100%;
+      display:block;
+}
+.people{
+    width:80%;
+    height:0.7rem;
+    background: #5050DD;
+    box-shadow: inset 0 0 10px 0 rgba(21,0,215,0.78);
+    border-radius: 20px;
+    line-height: 0.7rem;
+    text-align: center;
+    margin-left:10%;
+    font-size: 0.3rem;
+    color:#fff;
+    margin-bottom:1rem;
+}
+.people>span{
+    color:#F8E71C;
+}
+.footer{
+    width:100%;
+    background:#fff;
+    height:1rem;
+    line-height: 1rem;
+    position: fixed;
+    bottom:0;
+    left:0;
+    z-index:99;
+}
+.footer>img{
+    width:90%;
+    display:block;
+    margin-left:5%;
+    margin-top:0.1rem;
+}
+.cover1,.cover2,.cover3{
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, .4);
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:999;
+    font-size: 0.32rem;
+    display:none;
+}
+.cover_main2{
+    width:70%;
+    margin-left:15%;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+}
+.btn2{
+    width:100%;
+    height:0.8rem;
+    position:absolute;
+    bottom:0.5rem;
+    z-index:10;
+}
+.money{
+    position: absolute;
+    top:63%;
+    font-size: 0.32rem;
+    color:#FFF49B;
+    left:40%;
+}
+.cover_main2>img{
+    width:100%;
+    display:block;
+}
+.cover_main{
+    width:80%;
+    position: relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background:#fff;
+    border-radius: 10px;
+    padding:0.3rem;
+    text-align: center;
+}
+.remind{
+    line-height: 0.6rem;
+}
+.cover_context{
+    line-height: 0.5rem;
+}
+.btn{
+    width:50%;
+    height:0.8rem;
+    background:#ED624F;
+    border-radius: 20px;
+    line-height: 0.8rem;
+    text-align: center;
+    margin-left:25%;
+    margin-top:0.3rem;
+    color:#fff;
+}
+.tool{
+    position:absolute;
+    width:0.8rem;
+    z-index:99;
+    top:0.16rem;
+    left:0.16rem;
+}
+.rule{
+    position: absolute;
+    top:0;
+    right:0.2rem;
+    z-index:10;
+    width:0.75rem;
+}
+    </style>
+    <link rel="stylesheet" href="./css/invitation.css">
+    <link rel="stylesheet" href="./css/swiper.min.css">
+    <script>
+        var index = 120;
+        var articlenum = 10;
+        //设置rem 
+        function mobilecal() {
+            var size = 100, //规定rem与px之间值的转换
+                maxWidth = 750; //设置基准宽度。
+            ratio = function () {
+                var r = document.documentElement.clientWidth / maxWidth;
+                return r >= 1 ? 1 : r <= 0.234 ? 0.234 : r;
+            };
+            set = function () {
+                document.documentElement.style.fontSize = ratio() * size + 'px';
+            }();
+            window.onresize = mobilecal;
+        }
+        mobilecal();
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="banner"><img src="./img/banner.png"></div>
+        <img class="rule" src="./img/packrule.png">
+        <div class="topmain">
+            <div class="top_btn"><img src="./img/hb.png">我的红包</div>
+            <ul class="tit_p">
+                <li>
+                    <p class="p1">0</p>
+                    <p class="p2">新增好友(徒弟)</p>
+                </li>
+                <li>
+                    <p class="p1 friends">20</p>
+                    <p class="p2">有效好友(徒弟)</p>
+                </li>
+                <li>
+                    <p class="p1">0</p>
+                    <p class="p2">红包金额(元)</p>
+                </li>
+            </ul>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">2.18～38.88元</p>
+                   <img class="tool" src="./img/now.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">2.88～68.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">3.28～108.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">3.88～168.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">4.38～188.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">4.88～288.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">5.18～388.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">5.88～488.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">6.18～588.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">7.28～688.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+                <div class="swiper-slide"><img class="hb" src="./img/dqhb.png"><p class="per">8.38～888.88元</p>
+                    <img class="tool" src="./img/wating.png">
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <!-- <div class="swiper-pagination"></div> -->
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- 如果需要滚动条 -->
+            <!-- <div class="swiper-scrollbar"></div> -->
+        </div>
+        <div class="people">邀请<span class="num">1</span><span>名</span>有效好友就可开启红包</div>
+    </div>
+    <div class="footer">
+        <img src="./img/an.png">
+    </div>
+    <div class="cover1">
+        <div class="cover_main">
+            <p class="remind">提示</p>
+            <p class="cover_context">本阶段暂无奖励可以领取，快去邀请徒弟开启此红包！</p>
+            <p class="btn">邀请好友</p>
+        </div>
+    </div>
+    <div class="cover2">
+            <div class="cover_main">
+                <p class="remind">提示</p>
+                <p class="cover_context">您已经领取过了!</p>
+                <p class="btn">邀请好友</p>
+            </div>
+        </div>
+    <div class="cover3">
+        <div class="cover_main2">
+            <img src="./img/hbjl.png">
+            <p class="money">1.2</p>
+            <p class="btn2"></p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="http://app.junews.net/extendresouce/js/jquery-1.12.4.min.js"></script>
+<script src="./js/swiper.min.js"></script>
+<script>
+$(function(){
+    var mySwiper = new Swiper('.swiper-container', {
+        pagination: '.pagination',
+        paginationClickable: true,
+        centeredSlides: true, // 居中
+        slidesPerView: 2, // 显示几张图的张数
+        initialSlide: 0, // 默认显示的下标
+        spaceBetween: 30, // 间距
+        navigation: {
+            nextEl: '.swiper-button-prev',
+            prevEl: '.swiper-button-next',
+        },
+        on: {
+            slideChange: function () {
+                var next = this.activeIndex; // 索引
+                switch (next + 1) {
+                    case 1:
+                        $('.num').text('1')
+                        break;
+                    case 2:
+                        $('.num').text('2-3')
+                        break;
+                    case 3:
+                        $('.num').text('4-7')
+                        break;
+                    case 4:
+                        $('.num').text('8-17')
+                        break;
+                    case 5:
+                        $('.num').text('18-49')
+                        break;
+                    case 6:
+                        $('.num').text('50-99')
+                        break;
+                    case 7:
+                        $('.num').text('100-249')
+                        break;
+                    case 8:
+                        $('.num').text('250-999')
+                        break;
+                    case 9:
+                        $('.num').text('1000-2499')
+                        break;
+                    case 10:
+                        $('.num').text('2500-5000')
+                        break;
+                    case 11:
+                        $('.num').text('5000-无限')
+                        break;
+                    default:
+                        console.log('111')
+                        break;
+                }
+                var prew = $('.swiper-slide').length - 1; // 图片长度
+                if (next > 0) {
+                    $('.swiper-button-prev').hide()
+                } else {
+                    $('.swiper-button-prev').show()
+                }
+                if (next >= prew) {
+                    $('.swiper-button-next').show()
+                } else {
+                    $('.swiper-button-next').hide()
+                }
+            }
+        }
+    })
+    //点击遮罩层以外区域隐藏弹框
+    $('.cover1,.cover2').click(function (e) {
+        e.preventDefault();
+        $('.cover1,.cover2').hide();
+    })
+    $('.cover_main').click(function (e) {
+        e.stopPropagation();
+    })
+    $('.cover3').click(function (e) {
+        e.preventDefault();
+        $('.cover3').hide();
+    })
+    $(".cover_main2").click(function(e){
+        e.stopPropagation();
+    })
+    $(".btn2").click(function(){
+        $(".cover3").hide();
+    })
+     var arr=["0","3","2","2","1","1","1","1","1","1","1"];
+     for(var i=0;i<arr.length;i++){
+         if(arr[i]==0){
+            $(".tool").eq(i).attr("src","./img/wating.png");
+         }else if(arr[i]==2){
+            $(".tool").eq(i).attr("src","./img/now.png");
+         }else{
+            $(".tool").eq(i).attr("src","./img/alrady.png");
+         }
+     }
+    $(".swiper-wrapper").on("click",".swiper-slide",function(){
+        var ind=$(this).index();
+        var src = $(".tool").eq(ind).attr('src');
+        console.log(src);
+        if($(".tool").eq(ind).attr('src')=="./img/now.png"){
+            $(".cover3").show();
+            $(".tool").eq(ind).attr("src","./img/alrady.png");
+        }else if($(".tool").eq(ind).attr('src')=="./img/alrady.png"){
+            $(".cover2").show();
+        }else{
+            $(".cover1").show();
+        }
+    })
+    //点击规则
+    $(".rule").click(function(){
+        window.location.href="packrule.html";
+    })
+    $(".topmain").click(function(){
+        window.location.href="myprofit.html";
+    })
+})
+</script>
+
+</html>
