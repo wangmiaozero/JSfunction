@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+/*初始化 reset*/
+body,button,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,hr,input,li,ol,p,td,textarea,th,ul{margin:0;padding:0;}
+body,button,input,select,textarea{font:14px/1.5 "Microsoft Yahei" ,\5b8b\4f53,sans-serif;}
+h1,h2,h3,h4,h5,h6,button,input,select,textarea{font-size:100%;}
+em,i{font-style:normal;}
+ol,ul{list-style:none;}
+a{text-decoration:none; color:#666666;}
+a:hover{text-decoration:none; color:#ffa000;}
+img,input{border:none;}
+img{ display:block;}
+textarea{resize:none;}
+a,input,button,select,textarea{outline:none;}
+a,button{cursor:pointer;}
+/*清除浮动*/
+.clearfix:before,.clearfix:after{display:table;content:"";}
+.clearfix:after{clear:both;}
+.clearfix{zoom:1;}       
+.box{width: 100px;height: 100px;margin:100px auto;position: relative;border: 1px solid #ccc;}
+.reward,.big{font-size: 38px;color:green;display: block; position: absolute;top: 20px;left:30px;-webkit-transition: all .25s ease-in-out; -moz-transition: all .25s ease-in-out; -ms-transition: all .25s ease-in-out; -o-transition: all .25s ease-in-out; transition: all .25s ease-in-out;}
+.box .big{position: fixed;top: 50%;left:50%;margin:-100px 0 0 -100px;font-size: 200px;animation: gogo 1.5s 1;display: none;opacity:0;}
+@keyframes gogo{
+    0%{-webkit-transform: scale(1); -moz-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1);opacity:0.5;}
+    30%{-webkit-transform: scale(1); -moz-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1);opacity:1;}
+    70%{-webkit-transform: scale(3); -moz-transform: scale(3); -ms-transform: scale(3); -o-transform: scale(3); transform: scale(3);opacity:1;}
+    100%{-webkit-transform: scale(1); -moz-transform: scale(1); -ms-transform: scale(1); -o-transform: scale(1); transform: scale(1);opacity:0;}
+}
+</style>
+</head>
+<body>
+    <div class="box">
+        <i class="iconfont reward" id="icon">赞</i>
+        <i class="iconfont big" id="bigger">赞</i>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var icon = document.getElementById('icon');
+    var bigger = document.getElementById('bigger');
+    icon.onclick = function(){
+        bigger.style.display = 'block';
+    }
+</script>

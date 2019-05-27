@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plane</title>
+    <style type="text/css">
+        *{margin:0;padding:0;}
+        body{
+            height: 700px;
+            background: rgb(42, 121, 146);
+            background: linear-gradient(to top right,rgba(209,228,234,1),rgb(42, 121, 146));
+            overflow: hidden;
+            font-family: Microsoft Yahei;
+        }
+        .sky{
+            width:100%;
+            height:100%;
+            position: absolute;
+            background: url("http://cdn.attach.w3cfuns.com/notes/pics/201609/17/031247zixyvzio4nkxxkt4.png") no-repeat;
+            -webkit-animation:cloud 40s linear infinite;
+            animation:cloud 40s linear infinite;
+        }
+        @keyframes cloud{
+            from{background-position:1800px -100px;}
+            to{background-position:-1200px -100px;}
+
+        }
+        .plane{
+            height:300px;
+            width:490px;
+            position:absolute;
+            bottom:-14px;
+            left:25%;
+            z-index: 3;
+            -webkit-animation: planeFly 12s linear;
+            animation: planeFly 12s linear;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+        .plane .frame,.plane .tube,.plane .tube::after,.plane .tube::before,.plane .frame::after,.plane .wrings-left,.plane .wrings-right,.plane .wrings-right::after,.plane .wrings-left::after,.plane .tail-left,.plane .tail-right,.plane .tail-top,.plane .tail-top::after{
+            background: #fff;
+            border:1px solid #000;
+        }
+        .plane .frame{
+            z-index:1;
+            height:60px;
+            width:405px;
+            position: absolute;
+            top:100px;
+            right:50px;
+            border-radius:120% 160% 50% 220%;
+            -webkit-transform:rotate(-5deg);
+            transform:rotate(-5deg);
+        }
+        .plane .afterbody{
+
+        }
+        .plane .frame::after{
+            content: "";
+            height: 56px;
+            width: 400px;
+            position: absolute;
+            top: 8px;
+            left: 25px;
+            border-radius: 120% 167% 113% 100%;
+            clip: rect(0px 410px 60px 370px);
+        }
+        .plane .frame::before{
+            content: "";
+            height: 30px;
+            width: 50px;
+            position: absolute;
+            top:5px;
+            right: -2px;
+            border-radius: 50% 50% 50% 50%;
+            -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+            border-right: 1px solid #000;
+            background: #fff;
+            clip: rect(16px 70px 40px 31px);
+            z-index: 1;
+
+        }
+        .plane .frame .windows{
+            position:absolute;
+            top:21px;
+            left:100px;
+            width:7px;
+            height: 12px;
+            background: #666;
+            box-shadow: 15px 0px 0px #666,30px 0px 0px #666,45px 0px 0px #666,75px 0px 0px #666,90px 0px 0px #666,105px 0px 0px #666,120px 0px 0px #666,135px 0px 0px #666,150px 0px 0px #666,165px 0px 0px #666,195px 0px 0px #666,210px 0px 0px #666,225px 0px 0px #666,240px 0px 0px #666;
+            -webkit-transform:rotate(1deg);
+            transform:rotate(1deg);
+        }
+        .plane .frame .door{
+            position:absolute;
+            top: 17px;
+            left: 75px;
+            width: 10px;
+            height: 14px;
+            border:1px solid #333;
+        }
+        .plane .brand{
+            position: absolute;
+            top:38px;
+            right:58px;
+            color:#ef7b57;
+            font-size: 13px;
+            font-weight: 600;
+            -webkit-transform:rotate(1deg);
+            transform:rotate(1deg);
+        }
+        .plane .frame .pilothouse{
+            position:absolute;
+            top:26px;
+            right:13px;
+            width:7px;
+            height:10px;
+            background: #666;
+            z-index: 5;
+        }
+        .plane .frame .pilothouse::after{
+            content: "";
+            position:absolute;
+            top:0px;
+            left:10px;
+            width:10px;
+            height:9px;
+            background: #666;
+            z-index: 5;
+            border-bottom-right-radius:100%;
+        }
+        .plane  .tube{
+            width:40px;
+            height:20px;
+            border:1px solid #000;
+            position:absolute;
+            border-radius: 15% 0% 0% 25%;
+            border-left:none;
+            -webkit-transform:skewX(5deg);
+            transform:skewX(5deg);
+        }
+        .plane  .tube::after{
+            content:"";
+            width:8px;
+            height:20px;
+            position: absolute;
+            top:-1px;
+            right:-5px;
+            border-radius: 5% 28% 47% 5%;
+
+        }
+        .plane .tube-a{
+            top:24px;
+            left:202px;
+        }
+        .plane .tube-b{
+            top:60px;
+            left:238px;
+        }
+        .plane .tube-c{
+            top:175px;
+            left:258px;
+            z-index: 3;
+        }
+        .plane .tube-d{
+            top:218px;
+            left:245px;
+            z-index: 3;
+        }
+        .plane .tube .cover{
+            width:26px;
+            height:8px;
+            background: #fff;
+            position: absolute;
+            border-top:1px solid #000;
+            border-right:1px solid #000;
+            border-radius: 0% 50% 0% 0%;
+            -webkit-transform:rotate(7deg);
+            transform:rotate(7deg);
+            left:0;
+            top:13px;
+        }
+        .plane .tube-a .cover,.plane .tube-b .cover{
+            width:34px;
+            height:14px;
+            border-right:none;
+        }
+        .plane .tube-c .cover{
+            left:1px;
+
+        }
+        .plane  .wrings-left{
+            width:140px;
+            height:39px;
+            transform-origin: right top;
+            -webkit-transform:rotate(45deg) skewX(-43deg);
+            transform:rotate(45deg) skewX(-43deg);
+            border-top-left-radius:10%;
+            border-bottom-left-radius:10%;
+            /*border-right:none;*/
+            position:absolute;
+            top:105px;
+            left:155px;
+        }
+        .plane .wrings-left::after{
+            content:"";
+            width:147px;
+            height:30px;
+            position: absolute;
+            top:21px;
+            left:-2px;
+            -webkit-transform:rotate(10deg) skewX(10deg);
+            transform:rotate(10deg) skewX(10deg);
+            border-top:none;
+            border-radius:0% 0% 0% 10%;
+        }
+        .plane  .wrings-right{
+            width:145px;
+            height:55px;
+            transform-origin: right top;
+            -webkit-transform:rotate(-72deg) skewX(23deg);
+            transform:rotate(-72deg) skewX(23deg);
+            border-top-left-radius:10%;
+            border-bottom-left-radius:10%;
+            border-bottom-right-radius:5%;
+            position:absolute;
+            top:145px;
+            left:97px;
+            z-index: 3;
+        }
+        .plane .wrings-right::after{
+            content:"";
+            width:147px;
+            height:40px;
+            position: absolute;
+            top:-12px;
+            left:-2px;
+            -webkit-transform:rotate(-10deg) skewX(-10deg);
+            transform:rotate(-10deg) skewX(-10deg);
+            border-bottom:none;
+            border-radius:10% 5% 0% 0%;
+        }
+        .plane .wrings-left p,.plane .wrings-left p::after,.plane .wrings-right p,.plane .wrings-right p::after{
+            height: 8px;
+            position: absolute;
+            border: 1px solid #aaa;
+        }
+        .plane .wrings-left p{
+            width: 50px;
+            top: 47px;
+            left: 70px;
+            -webkit-transform:rotate(10deg) skewX(10deg);
+            transform:rotate(10deg) skewX(10deg);
+            z-index: 1;
+            border-bottom: none;
+        }
+        .plane .wrings-left p::after{
+            content: "";
+            width: 46px;
+            top: 0px;
+            left: -58px;
+            border-bottom: none;
+        }
+        .plane .wrings-right p{
+            width: 50px;
+            top: -16px;
+            left: 76px;
+            -webkit-transform: rotate(-10deg) skewX(-10deg);
+            transform: rotate(-10deg) skewX(-10deg);
+            z-index: 1;
+            border-top:none;
+        }
+        .plane .wrings-right p::after{
+            content:"";
+            width: 49px;
+            top: 0px;
+            left: -60px;
+            border-top:none;
+        }
+        .plane .tail-left,.plane .tail-right{
+            transform-origin: right top;
+            border-top-left-radius:10%;
+            border-bottom-left-radius:10%;
+            position:absolute;
+        }
+        .plane .tail-left{
+            width:50px;
+            height:35px;
+            -webkit-transform:rotate(45deg) skewX(-43deg);
+            transform:rotate(45deg) skewX(-43deg);
+            border-right:none;
+            top:143px;
+            left:42px;
+        }
+        .plane  .tail-right{
+            width:45px;
+            height:30px;
+            -webkit-transform:rotate(-75deg) skewX(20deg);
+            transform:rotate(-75deg) skewX(20deg);
+            border-bottom-right-radius:5%;
+            top:138px;
+            left:-13px;
+            z-index: 4;
+        }
+        .plane  .tail-top{
+            width: 60px;
+            height: 25px;
+            -webkit-transform: rotate(50deg) skewX(-30deg);
+            transform: rotate(50deg) skewX(-30deg);
+            border-top-left-radius: 20%;
+            border-bottom-left-radius: 20%;
+            position: absolute;
+            top: 96px;
+            left: 12px;
+            border-bottom: none;
+
+            z-index:3;
+        }
+        .plane  .tail-top::before{
+            content: "";
+            width: 60px;
+            height:20px;
+            position: absolute;
+            top: 9px;
+            left: 1px;
+            border-bottom:1px solid #000;
+            border-right:1px solid #000;
+            -webkit-transform: rotate(13deg) skewX(13deg);
+            transform: rotate(13deg) skewX(13deg);
+            background:#fff;
+        }
+        .plane  .tail-top::after{
+            content: "";
+            width: 50px;
+            height: 40px;
+            border-width:2px;
+            width: 15px;
+            height: 41px;
+            border-width: 2px;
+            border-top-right-radius: 50%;
+            border-bottom-right-radius: 28%;
+            -webkit-transform: skewX(24deg);
+            transform: skewX(24deg);
+            position: absolute;
+            top: -42px;
+            left: 38px;
+            border-right: 0;
+            border-top: 0;
+            border-left: 0;
+            background: transparent;
+        }
+        .plane .tail-top .paint,.plane .tail-top .paint::before{
+            position: absolute;
+            top: 0px;
+            background:rgba(197,35,7,.9);
+        }
+        .plane .tail-top .paint{
+            width: 67px;
+            height: 23px;
+            left: 0px;
+            z-index: 5;
+            border-radius: 15% 0% 0% 10%;
+        }
+        .plane .tail-top .paint::before{
+            content: "";
+            width: 31px;
+            height: 37px;
+            left: 64px;
+            border-radius: 0% 0% 400% 0%;
+            -webkit-transform: rotate(8deg) skewY(-8deg);
+            transform: rotate(8deg) skewY(-8deg);
+        }
+        .plane .tail-top .paint p{
+            color:#fff;
+            padding-left:13px;
+            padding-top:1px;
+            font-size:16px;
+
+        }
+        .earth{
+            width:100%;
+            height: 250px;
+            position:absolute;
+            left:0;
+            bottom:0px;
+            -webkit-animation: earthDown 12s 3s linear;
+            animation: earthDown 12s 3s linear;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+        .earth .street {
+            background:#7a7a7a;
+            height:130px;
+            width:102%;
+            position:absolute;
+            bottom:65px;
+            box-shadow:0 1px 16px rgba(111, 35, 51, 0.4) inset;
+            } 
+        .earth .street:after {
+            content:"";
+            display:block;
+            position:absolute;
+            width:100%;
+            height:0px;
+            bottom:0px;
+            border-bottom:3px solid #72625a;
+            z-index:1;
+            }
+        .earth .street-stripe {
+            background:#d4d4d4;
+            height:8px;
+            width:100px;
+            position:absolute;
+            bottom:65px;
+            left:-1000px;
+            border-radius:2px;
+            box-shadow:200px 0 0 #d4d4d4, 400px 0 0 #d4d4d4 , 600px 0 0 #d4d4d4 , 800px 0 0 #d4d4d4 , 1000px 0 0 #d4d4d4 , 1200px 0 0 #d4d4d4 , 1400px 0 0 #d4d4d4 , 1600px 0 0 #d4d4d4 , 1800px 0 0 #d4d4d4 , 2000px 0 0 #d4d4d4, 2200px 0 0 #d4d4d4, 2400px 0 0 #d4d4d4, 2600px 0 0 #d4d4d4;
+            -webkit-animation: streetMove linear 8s infinite;
+            animation: streetMove linear 8s infinite;
+        }
+        .earth .hill {
+            position: absolute;
+            bottom: 100px;
+            right: 0;
+            width: 100%;
+            height: 250px;
+            z-index:-1;
+        }
+        .earth .hill:after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right:0px;
+            width: 100%;
+            height:30%;
+            background-color: #94c943;
+            box-shadow:0 0 25px #cbf191 inset;
+        }
+        .earth .hill:before {
+            background-color: #93cc3a;
+            border-top-left-radius:90%;
+            border-top-right-radius: 100%;
+            bottom: -25px;
+            content: "";
+            height:60%;
+            left:-50%;
+            position: absolute;
+            -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+            width: 150%;
+            box-shadow:0 0 5px #cbf191;
+            -webkit-animation: hillMove 8s linear;
+            animation: hillMove 8s linear;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+        .plane .base{
+            width:24px;
+            height:7px;
+            background: #333;
+            position: absolute;
+            border-radius: 0% 0% 40% 40%;
+            -webkit-animation:tyreOut 3s 10s linear;
+            animation:tyreOut 3s 10s linear;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+
+        }
+        .plane .base::before{
+            content:"";
+            display: block;
+            width:4px;
+            height:13px;
+            position: absolute;
+            top:0;
+            left:10px;
+            background: #333;   
+        }
+        .plane .base-back{
+            top:160px;
+            left:145px;
+        }
+        .plane .base-front{
+            top:147px;
+            right:104px;
+            -webkit-transform:rotate(-5deg);
+            transform:rotate(-5deg);
+
+        }
+        .plane .base .tyre{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3f3f40;
+            position: absolute;
+            top: 11px;
+
+        }
+        .plane .base .tyre:before {
+            content:'';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #bdc2bd;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        } 
+        .plane .base .tyre-back{
+            left: 2px;
+            -webkit-animation:tyreRotate 5s ease-out;
+            animation:tyreRotate 5s ease-out;
+        }
+        .plane .base .tyre-front{
+            right:2px;
+            -webkit-animation:tyreRotate 4s ease-out;
+            animation:tyreRotate 4s ease-out;
+        }
+        .plane .base .tyre .gap{
+            background: #3f3f40;
+            width: 2px;
+            height: 4px;
+            position: absolute;
+            left: 9px;
+            top: 5px;
+            box-shadow: 0 6px 0 #3f3f40;
+        } 
+        .plane .base .tyre .gap:before {
+            content:'';
+            display:block;
+            width:2px;
+            height:4px;
+            position:absolute;
+            top:3px;
+            left:-3px;
+            background:#3f3f40;
+            box-shadow:0 6px 0 #3f3f40;
+            -webkit-transform:rotate(-90deg);
+            transform:rotate(-90deg);
+        } 
+        @keyframes tyreRotate{
+            from{-webkit-transform:rotate(-5400deg);} 
+            to{-webkit-transform:rotate(0deg);}
+        }
+
+        @keyframes hillMove{
+            0%{left:-200;}
+            100%{left:-1200px;}
+        }
+        @keyframes streetMove{
+            0%{left:0;}
+            100%{left:-1000px;}
+        }
+        @keyframes planeFly{
+            0%{left:0;bottom:0;transform:rotate(0deg);}
+            50%{left:15%;bottom:0;transform:rotate(-3deg);}
+            60%{left:18%;bottom:5%;transform:rotate(-5deg);}
+            100%{left:30%;bottom:35%;transform:rotate(0deg);}
+        }
+        @keyframes earthDown{
+            0%{bottom:0;}
+            25%{bottom:-30px;}
+            50%{bottom:-100px;}
+            100%{bottom:-300px;}
+        }
+        @keyframes tyreOut{
+            to{top:110px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="sky"></div>
+    <div class="plane">
+        <div class="frame">
+            <div class="head"></div>
+            <div class="windows"></div>
+            <div class="door"></div>
+            <div class="pilothouse"></div>
+            <!-- <div class="afterbody"></div> -->
+            <div class="brand">
+                <p>AIRBUS</p>
+            </div>
+        </div>
+        <div class="base base-back">
+            <div class="tyre tyre-back">        
+                <div class="gap"></div>   
+            </div>
+        </div>
+        <div class="base base-front">
+            <div class="tyre tyre-front">       
+                <div class="gap"></div>   
+            </div>
+        </div>
+        <div class="wrings-left">
+            <p></p>
+        </div>
+        <div class="wrings-right">
+            <p></p>
+        </div>
+        <div class="tube tube-a">
+            <div class="cover"></div>
+        </div>
+        <div class="tube tube-b">
+            <div class="cover"></div>
+        </div>
+        <div class="tube tube-c">
+            <div class="cover"></div>
+        </div>
+        <div class="tube tube-d">
+            <div class="cover"></div>
+        </div>
+        <div class="tail-left"></div>
+        <div class="tail-right"></div>
+        <div class="tail-top">
+            <div class="paint">
+                <p>A380</p>
+            </div>
+        </div>
+    </div>
+    <div class="earth">
+        <div class="street">
+            <div class="street-stripe"></div>
+        </div>
+        <div class="hill">
+        </div>
+        </div>
+</body>
+</html>
