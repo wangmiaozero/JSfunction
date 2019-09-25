@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
+    #myCanvas {
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas">当前浏览器不支持canvas组件请升级！</canvas>
+
+  <script type="text/javascript">
+    //方法三：获取圆坐标方式 动态画圆
+    var c = document.getElementById('myCanvas');
+    var ctx = c.getContext('2d');
+
+    var mW = c.width = 300;
+    var mH = c.height = 300;
+    var lineWidth = 5;
+    var r = mW / 2; //中间位置
+    var cR = r - 4 * lineWidth; //圆半径
+    var startAngle = -(1 / 2 * Math.PI); //开始角度
+    var endAngle = startAngle + 2 * Math.PI; //结束角度
+    var xAngle = 2 * (Math.PI / 180); //偏移角度量
+    var cArr = []; //圆坐标数组
+
+    //初始化圆坐标数组
+    for (var i = startAngle; i <= endAngle; i += xAngle) {
+      //通过sin()和cos()获取每个角度对应的坐标
+      var x = r + cR * Math.cos(i);
+      var y = r + cR * Math.sin(i);
+
+      cArr.push([x, y]);
+    }
+
+    //移动到开始点
+    var startPoint = cArr.shift();
+    ctx.beginPath();
+    ctx.moveTo(startPoint[0], startPoint[1]);
+
+    //渲染函数
+    var rander = function ()
+    {
+      //画圈
+      if (cArr.length) {
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = '#1c86d1';
+
+        var tmpPoint = cArr.shift();
+        ctx.lineTo(tmpPoint[0], tmpPoint[1]);
+
+        ctx.stroke();
+      } else {
+        cArr = null;
+        return;
+      }
+
+      requestAnimationFrame(rander);
+    };
+
+    rander();
+  </script>
+</body>
+
+</html>
