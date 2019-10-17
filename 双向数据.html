@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+
+<body>
+  <input type="text" id="myinput">
+  <script>
+    var input = document.getElementById("myinput");
+    var obj = {};
+    Object.defineProperty(obj, "input", {
+      get: function ()
+      {
+        return input.value;
+      },
+      set: function (val)
+      {
+        input.value = val;
+        changeCallback(input.value);
+      }
+    });
+
+    input.onkeyup = function ()
+    {
+      obj.input = input.value;
+    };
+
+    function changeCallback(val)
+    {
+      console.log("这里是不管view层，还是module层修改后的回调，最后设置的值是" + val);
+    }
+
+  </script>
+</body>
+
+</html>
