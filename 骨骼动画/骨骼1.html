@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .animate-2 .item-1 {
+      /* 设置margin是为了定位，使其部分重叠在一起 */
+      margin-bottom: -8px;
+      margin-left: 18px;
+      position: relative;
+      z-index: 1;
+      animation: swing2-1 1s ease-in-out infinite;
+      transform: rotate(-3deg);
+      transform-origin: top center;
+      background-color: red;
+      width: 25px;
+      height: 50px;
+    }
+
+    .animate-2 .item-2 {
+      animation: swing2-2 1s ease-in-out infinite;
+      transform: rotate(5deg);
+      transform-origin: top center;
+      background-color: red;
+      width: 109px;
+      height: 129px;
+    }
+
+    .animate-2 .item-3 {
+      margin-top: -5px;
+      margin-left: 17.5px;
+      position: relative;
+      animation: swing2-3 1s ease-in-out infinite;
+      transform: rotate(-5deg);
+      transform-origin: top center;
+      background-color: red;
+      width: 30px;
+      height: 60px;
+    }
+
+    @keyframes swing2-1 {
+      0% {
+        transform: rotate(-3deg);
+      }
+
+      50% {
+        transform: rotate(3deg);
+      }
+
+      100% {
+        transform: rotate(-3deg);
+      }
+    }
+
+    @keyframes swing2-2 {
+      0% {
+        transform: rotate(5deg);
+      }
+
+      50% {
+        transform: rotate(-5deg);
+      }
+
+      100% {
+        transform: rotate(5deg);
+      }
+    }
+
+    @keyframes swing2-3 {
+      0% {
+        transform: rotate(-5deg);
+      }
+
+      50% {
+        transform: rotate(5deg);
+      }
+
+      100% {
+        transform: rotate(-5deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animate-2">
+    <!--元素1-->
+    <div class="item-1"></div>
+    <!--元素2-->
+    <div class="item-2"></div>
+    <!--元素3-->
+    <div class="item-3"></div>
+  </div>
+
+</body>
+
+</html>
