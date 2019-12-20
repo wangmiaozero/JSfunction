@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style lang="css">
+    .watermelon {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      border-radius: 50%;
+      clip-path: polygon(100% 100%, 0 100%, 50% 0);
+      border-bottom: 10px solid green;
+    }
+
+    .triangle {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      clip-path: polygon(0 0, 0 100%, 100% 50%);
+    }
+
+    .diamond {
+      width: 100px;
+      height: 80px;
+      margin: 20px;
+      border-radius: 50%;
+      background-image: linear-gradient(#ddf5ff, #29bcf7);
+      clip-path: polygon(50% 100%, 100% 10%, 0 10%);
+    }
+
+    .demo_box {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #ffa700;
+      clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%, 0% 25%, 50% 50%, 0% 80%);
+      animation: a 1s infinite alternate;
+    }
+
+    @keyframes a {
+
+      0%,
+      10% {
+        clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%, 0% 25%, 50% 50%, 0% 80%)
+      }
+
+      90%,
+      100% {
+        clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%, 0% 50%, 60% 50%, 0% 60%)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="watermelon"></div>
+  <div class="triangle"></div>
+  <div class="diamond"></div>
+  <div class="demo_box"></div>
+</body>
+
+</html>
