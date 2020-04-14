@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: wangmiao
+ * @Date: 2019-11-25 09:28:20
+ * @LastEditors: wangmiao
+ * @LastEditTime: 2020-04-14 16:59:10
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +14,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <body>
     <p> 
         <label>ajax上传</label> 
         <input type="file" name="fileToUpload" id="fileToUpload" class="inp_fileToUpload" multiple="multiple"/> 
-        <img src="$web.site$web.tpl#**#adminht/images/lb_head.jpg" width="30px" height="30px" class="img_upload" id="img" /> 
+        <img src="" width="30px" height="30px" class="img_upload" id="img" /> 
         </p> 
         <p> 
         <label>最新修改人员：</label> 
@@ -19,32 +28,32 @@
         <div> 
         
         <script type="text/javascript"> 
-        $(function() { 
-        $(".inp_fileToUpload").live("change", function() {//现在这个已经适用于多个file表单。 
-        ajaxFileUpload($(this).attr("id"), $(this).parent().children(".img_upload").attr("id")); 
-        }) 
-        }) 
-        function ajaxFileUpload(file_id, img_id) { 
-        jQuery.ajaxFileUpload({ 
-        url : '/upload/upload_json.ashx', //用于文件上传的服务器端请求地址 
-        secureuri : false, //是否需要安全协议，一般设置为false 
-        fileElementId : file_id, //文件上传域的ID 
-        dataType : 'json', //返回值类型 一般设置为json 
-        success : function(data, status)//服务器成功响应处理函数 
-        { 
-        if (data.error == 0) { 
-        $("#" + img_id).attr("src", data.url); 
-        } else { 
-        alert(data.message); 
-        } 
-        }, 
-        error : function(data, status, e)//服务器响应失败处理函数 
-        { 
-        alert(e); 
-        } 
-        }) 
-        return false; 
-        } 
+                $(function() { 
+                $(".inp_fileToUpload").live("change", function() {//现在这个已经适用于多个file表单。 
+                ajaxFileUpload($(this).attr("id"), $(this).parent().children(".img_upload").attr("id")); 
+                }) 
+                }) 
+                function ajaxFileUpload(file_id, img_id) { 
+                jQuery.ajaxFileUpload({ 
+                url : '/upload/upload_json.ashx', //用于文件上传的服务器端请求地址 
+                secureuri : false, //是否需要安全协议，一般设置为false 
+                fileElementId : file_id, //文件上传域的ID 
+                dataType : 'json', //返回值类型 一般设置为json 
+                success : function(data, status)//服务器成功响应处理函数 
+                { 
+                if (data.error == 0) { 
+                $("#" + img_id).attr("src", data.url); 
+                } else { 
+                alert(data.message); 
+                } 
+                }, 
+                error : function(data, status, e)//服务器响应失败处理函数 
+                { 
+                alert(e); 
+                } 
+                }) 
+                return false; 
+                } 
         </script> 
         </div> 
         </div>
