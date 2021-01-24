@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #eee;
+        }
+
+        .box {
+            width: 700px;
+            height: 200px;
+            background-color: #77F7F7;
+            margin: 100px auto;
+        }
+
+        li {
+            position: absolute;
+            left: 0;
+            top: 0;
+            list-style: none;
+            font-size: 150px;
+            /* font-weight: bolder */
+        }
+
+        ul {
+            width: 175px;
+            height: 200px;
+            float: left;
+            position: relative;
+            transform: rotate3d(1, 1, 0, 0deg);
+            transform-style: preserve-3d;
+            box-sizing: border-box;
+
+        }
+
+        li:nth-of-type(1) {
+            color: #fff;
+            transform-origin: left;
+            transform: translateZ(100px);
+            transform: rotateY(-70deg);
+            transition: transform 2s;
+        }
+
+        li:nth-of-type(2) {
+            color: #53ACAC;
+            transform-origin: left;
+            transform: translateZ(-100px);
+            transform: skew(0deg, 8deg);
+            transition: transform 1s;
+
+        }
+
+        div:hover li {
+            transform: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul class="size1">
+            <li>嘉</li>
+            <li>嘉</li>
+            <li>嘉</li>
+        </ul>
+        <ul class="size2">
+            <li>怡</li>
+            <li>怡</li>
+            <li>怡</li>
+        </ul>
+        <ul class="size3">
+            <li>爱</li>
+            <li>爱</li>
+            <li>爱</li>
+        </ul>
+        <ul>
+            <li>你</li>
+            <li>你</li>
+            <li>你</li>
+        </ul>
+    </div>
+</body>
+
+</html>

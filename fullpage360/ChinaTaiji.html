@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #ccc;
+        }
+
+        .taiji {
+            width: 500px;
+            height: 500px;
+            border: 1px solid red;
+            margin: 100px auto;
+            border-radius: 50%;
+            position: relative;
+            background: linear-gradient(to right, #fff 0%, #fff 50%, #000 50%, #000 100%);
+            animation: run1 3s infinite linear;
+        }
+
+        .taiji::before,
+        .taiji::after {
+            content: "";
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            border-radius: 50%;
+
+        }
+
+        .taiji::before {
+            background-color: #fff;
+            left: 25%;
+            top: 0;
+            background: radial-gradient(#000 0%, #000 20%, #fff 20%, #fff)
+        }
+
+        .taiji::after {
+            background: radial-gradient(#fff 0%, #fff 25%, #000 25%, #000);
+            background-color: #000;
+            bottom: 0;
+            left: 25%;
+        }
+
+        @keyframes run {
+            from {}
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes run1 {
+            from {}
+
+            to {
+                transform: rotate(+360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="taiji"></div>
+</body>
+
+</html>
