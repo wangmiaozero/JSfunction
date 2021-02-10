@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金牛献瑞</title>
+</head>
+<style>
+@charset "utf-8";
+/* CSS Document */
+@charset "utf-8";
+/*!
+ * @名称：base.css
+ * @功能：1、重设浏览器默认样式
+ *       2、设置通用原子类
+ */
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+html {
+    background:white;
+    color:black;
+}
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    margin:0;
+    padding:0;
+}
+/* 要注意表单元素并不继承父级 font 的问题 */
+body,button,input,select,textarea {
+    font:12px \5b8b\4f53,arial,sans-serif;
+}
+input,select,textarea {
+    font-size:100%;
+}
+/* 去掉 table cell 的边距并让其边重合 */
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+/* ie bug：th 不继承 text-align */
+th {
+    text-align:inherit;
+}
+/* 去除默认边框 */
+fieldset,img {
+    border:none;
+}
+/* ie6 7 8(q) bug 显示为行内表现 */
+iframe {
+    display:block;
+}
+/* 去掉 firefox 下此元素的边框 */
+abbr,acronym {
+    border:none;
+    font-variant:normal;
+}
+/* 一致的 del 样式 */
+del {
+    text-decoration:line-through;
+}
+address,caption,cite,code,dfn,em,th,var {
+    font-style:normal;
+    font-weight:500;
+}
+/* 去掉列表前的标识，li 会继承 */
+ol,ul {
+    list-style:none;
+}
+/* 对齐是排版最重要的因素，别让什么都居中 */
+caption,th {
+    text-align:left;
+}
+/* 来自yahoo，让标题都自定义，适应多个系统应用 */
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:500;
+}
+q:before,q:after {
+    content:'';
+}
+/* 统一上标和下标 */
+sub,sup {
+    font-size:75%;
+    line-height:0;
+    position:relative;
+    vertical-align:baseline;
+}
+sup {
+    top:-0.5em;
+}
+sub {
+    bottom:-0.25em;
+}
+/* 让链接在 hover 状态下显示下划线 */
+a:hover {
+    text-decoration:underline;
+}
+/* 默认不显示下划线，保持页面简洁 */
+ins,a {
+    text-decoration:none;
+}
+/* 去除 ie6 & ie7 焦点点状线 */
+a:focus,*:focus {
+    outline:none;
+}
+/* 清除浮动 */
+.clearfix:before,.clearfix:after {
+    content:"";
+    display:table;
+}
+.clearfix:after {
+    clear:both;
+    overflow:hidden;
+}
+.clearfix {
+    zoom:1; /* for ie6 & ie7 */
+}
+.clear {
+    clear:both;
+    display:block;
+    font-size:0;
+    height:0;
+    line-height:0;
+    overflow:hidden;
+}
+/* 设置显示和隐藏，通常用来与 js 配合 */
+.hide {
+    display:none;
+}
+.block {
+    display:block;
+}
+/* 设置浮动，减少浮动带来的 bug */
+.fl,.fr {
+    display:inline;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+html,body {
+    height:100%;
+} 
+.shareContainer{
+    width: 100%;
+    height: 17.6rem;
+    background: url(http://oss.wangmiaozero.cn/images/share.jpg);
+    background-size: 100% 100%;
+}
+ .container{
+     position: relative;
+     padding-top: 3.3rem;
+     box-sizing: border-box;
+ }
+.shareTitle{
+    position: relative;
+    font-size: 0.30rem;
+    color: #e1dd80;
+    font-weight: 900;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 0.3rem;
+}
+.content{
+    font-size: 0.28rem;
+    color: #e1dd80;
+    padding: 0 0.3rem;
+    box-sizing: border-box;
+    margin-top: 0.2rem;
+    box-sizing: border-box;
+    text-indent: 30px;
+}
+.footer{
+    font-size: 0.28rem;
+    color: #e1dd80;
+    position: absolute;
+    right: 0;
+    bottom: -25%;
+    padding-right: 0.3rem;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+</style>
+<script>
+    /**
+    * Y 可伸缩布局方案
+    * rem计算方式：设计图尺寸px / 100 = 实际rem  【例: 100px = 1rem，32px = .32rem】
+    */
+    !function (window) {
+        /* 设计图文档宽度 */
+        var docWidth = 750;
+
+        var doc = window.document,
+            docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+
+        var recalc = (function refreshRem () {
+            var clientWidth = docEl.getBoundingClientRect().width;
+
+            /* 8.55：小于320px不再缩小，11.2：大于420px不再放大 */
+            docEl.style.fontSize = Math.max(Math.min(20 * (clientWidth / docWidth), 11.2), 8.55) * 5 + 'px';
+
+            return refreshRem;
+        })();
+
+        /* 添加倍屏标识，安卓为1 */
+        docEl.setAttribute('data-dpr', window.navigator.appVersion.match(/iphone/gi) ? window.devicePixelRatio : 1);
+
+        if (/iP(hone|od|ad)/.test(window.navigator.userAgent)) {
+            /* 添加IOS标识 */
+            doc.documentElement.classList.add('ios');
+            /* IOS8以上给html添加hairline样式，以便特殊处理 */
+            if (parseInt(window.navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/)[1], 10) >= 8)
+                doc.documentElement.classList.add('hairline');
+        }
+
+        if (!doc.addEventListener) return;
+        window.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+
+    }(window);
+</script>
+<body >
+    <div class="shareContainer">
+        <div class="container">
+            <p class="shareTitle">尊敬的</p>
+            <p class="content">鼠去牛来，万象更始。2021年必将金牛奋蹄，牛转乾坤！值此华夏大地喜迎牛年新春佳节之际，谨代表瑞金医院全体同事向您致以最诚挚的感谢和最美好的祝愿！ 
+            </p>
+            <p class="content">2020年是极其不平凡的一年，全球历经疫情考验，在党中央的带领下全国人民团结一心，砥砺前行，取得了抗疫保卫战的阶段性胜利。这一年里，在您的关爱与支持下，全体瑞金人不惧艰险，践行使命，展现了人民至上，生命至上的“瑞金担当”；这一年里，我们克服疫情影响，实现“十三五”完美收官，医、教、研等工作均实现高质量发展。老牛亦解韶光贵，不待扬鞭自奋蹄。为迎接2021党的百年华诞，全体瑞金人将秉持初心，继续努力，众志成城，奋力擎画瑞金医院“十四五”的宏伟蓝图。 
+            </p>
+            <p class="content">瑞雪金牛傲冬寒，人间大爱洒广慈，广博慈爱塑辉煌，追求卓越耀瑞金。恭祝您新春愉快，工作顺利，吉祥如意！ </p>
+            <div class="footer">
+                <p>上海交通大学医学院附属瑞金医院</p>
+                <p>中共上海交通大学医学院附属瑞金医院委员会</p>
+                <p id="time"></p>
+            </div>
+        </div>
+    </div>
+
+   <script>
+       function nowTime() {
+        var myTime = new Date(); //当前时间
+        var myYear = myTime.getFullYear(); //获取完整的年份(4位,1970-????)
+        var myMonth = (myTime.getMonth() + 1)<10?'0'+(myTime.getMonth() + 1):myTime.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+        var myData = myTime.getDate()<10?'0'+myTime.getDate():myTime.getDate(); //获取当前日(1-31)
+        var myHours = myTime.getHours()<10?'0'+myTime.getHours():myTime.getHours(); //获取当前小时数(0-23)
+        var myMinutes = myTime.getMinutes()<10?'0'+myTime.getMinutes():myTime.getMinutes(); //获取当前分钟数(0-59)
+        var mySeconds = myTime.getSeconds()<10?'0'+myTime.getSeconds():myTime.getSeconds(); //获取当前秒数(0-59)
+        return `${myYear}年${myMonth}月${myData}日`
+    }
+     document.getElementById("time").textContent = nowTime()
+   </script>
+</body>
+</html>
