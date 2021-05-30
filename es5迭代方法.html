@@ -1,0 +1,68 @@
+<!--
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: wangmiao
+ * @Date: 2021-02-22 18:17:05
+ * @LastEditors: wangmiao
+ * @LastEditTime: 2021-02-22 18:33:54
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="every(11)">every</button>
+    <button onclick="every1()">every1</button>
+    <script>
+        function every(num) {
+            let arr = [11,22,33,444,55,66];
+          let every =  arr.every((item,index,newArr)=>{
+                console.log(item,index,newArr)
+                return item > num;
+            })
+            console.log(every,'every')
+        }
+
+        function every1() {
+            let data = [
+                {   name:'name1',
+                    drugList:[
+                        {
+                            isSelect:1,
+                            isValid:1
+                        },
+                        {
+                            isSelect:0,
+                            isValid:0
+                        },
+                        {
+                            isSelect:1,
+                            isValid:1
+                        },
+                        {
+                            isSelect:1,
+                            isValid:1
+                        }
+                    ]
+                },
+                {   name:'name2',
+                    drugList:[ ]
+                },
+                {   name:'name3',
+                    drugList:[ ]
+                }
+            ];
+            data.forEach((item,index)=>{
+                // 错误写法
+               let every = item.drugList.every((i)=> (i.isValid == 1 &&i.isSelect == 1))
+               console.log(every,index)
+            })
+        }
+        
+    </script>
+</body>
+</html>

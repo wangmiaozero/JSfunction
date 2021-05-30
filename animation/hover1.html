@@ -1,0 +1,59 @@
+<!--
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: wangmiao
+ * @Date: 2020-06-28 09:04:14
+ * @LastEditors: wangmiao
+ * @LastEditTime: 2020-06-28 09:14:38
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鼠标悬停图片时，图片会有滑动效果</title>
+</head>
+<style>
+.snip1325 {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  min-width: 255px;
+  max-width: 315px;
+  height: 220px;
+  width: 100%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.snip1325 img {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  -webkit-transition: all 2s ease-out;
+  transition: all 2s ease-out;
+}
+.snip1325:hover img,
+.snip1325.hover img {
+  -webkit-transform: translateX(130px);
+  transform: translateX(130px);
+}
+/* Demo purposes only */
+body {
+  background-color: #212121;
+}
+
+</style>
+<body>
+  <figure class="snip1325"><a href="#"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/ls-sample4.jpg" alt="ls-sample4" /></a></figure>
+  <figure class="snip1325 hover"><a href="#"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/ls-sample7.jpg" alt="ls-sample7" /></a></figure>
+  <figure class="snip1325"><a href="#"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/ls-sample6.jpg" alt="ls-sample6" /></a></figure>
+</body>
+<script>
+/* Demo purposes only */
+$(".hover").mouseleave(
+  function () {
+    $(this).removeClass("hover");
+  }
+);
+
+</script>
+</html>

@@ -1,0 +1,99 @@
+<!--
+ * @Description: 
+ * @Version: 0.1
+ * @Autor: wangmiao
+ * @Date: 2021-05-21 21:25:06
+ * @LastEditors: wangmiao
+ * @LastEditTime: 2021-05-21 21:32:11
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         window.$toolGetDateStr = function(AddDayCount) {
+			var dd = new Date();
+			dd.setDate(dd.getDate() + AddDayCount); // 获取AddDayCount天后的日期
+			var y = dd.getFullYear();
+			var m =
+				dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1; // 获取当前月份的日期，不足10补0
+			var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate(); // 获取当前几号，不足10补0
+			return y + "/" + m + "/" + d;
+		};
+        window.$toolGetdif = function(time1, time2) {
+			var date3 = time1 - time2; // 时间差的秒数
+			// 计算出相差天数
+			var days = Math.floor(date3 / (24 * 3600 * 1000));
+			// 计算出小时数
+			var sumHours = Math.floor(date3 / (3600 * 1000));
+			var leave1 = date3 % (24 * 3600 * 1000); // 计算天数后剩余的毫秒数
+			var hours = Math.floor(leave1 / (3600 * 1000));
+			// 计算相差分钟数
+			var leave2 = leave1 % (3600 * 1000); // 计算小时数后剩余的毫秒数
+			var minutes = Math.floor(leave2 / (60 * 1000));
+			// 计算相差秒数
+			var leave3 = leave2 % (60 * 1000); // 计算分钟数后剩余的毫秒数
+			var seconds = Math.round(leave3 / 1000);
+			return {
+				days: days,
+				hours: hours,
+				sumHours: sumHours,
+				minutes: minutes,
+				seconds: seconds
+			};
+		};
+      window.$toolGetTime = function(time) {
+			// 验证时间规则并输出时间
+			var Yesterday = new Date(window.$toolGetDateStr(-1) + " 23:59:59"); // 昨天时间
+			var YesterdayHours = window.$toolGetdif(
+				new Date().getTime(),
+				Yesterday.getTime()
+			).hours; // 当前时间距离昨天相差多少小时
+			var t = new Date();
+			t.setTime(time);
+			var dif = window.$toolGetdif(new Date().getTime(), time);
+			if (
+				dif.sumHours <= YesterdayHours &&
+				dif.sumHours >= 1 &&
+				new Date(time).toDateString() === new Date().toDateString()
+			) {
+				// 当天的消息
+				var text = "上午";
+				if (dif.sumHours < YesterdayHours - 12) {
+					text = "下午";
+				}
+				return text + t.format(" hh:mm:ss");
+			}
+			if (dif.sumHours <= YesterdayHours && dif.sumHours < 1) {
+				// 当天的消息
+				if (dif.minutes < 5) {
+					return "刚刚";
+				} else {
+					return t.format("hh:mm:ss");
+				}
+			}
+			if (dif.sumHours - YesterdayHours <= 24) {
+				// 昨天消息
+				return "昨天 " + t.format(" hh:mm:ss");
+			}
+			if (dif.days >= 1 && dif.days < 7 && dif.sumHours - YesterdayHours > 24) {
+				// 一周内消息
+				return (
+					"周" + "日一二三四五六".charAt(t.getDay()) + t.format(" hh:mm:ss")
+				);
+			}
+			if (dif.days >= 7) {
+				// 消息大于一周
+				return t.format("yyyy年MM月dd hh:mm:ss");
+			}
+		};
+        console.log(window.$toolGetTime(new Date().getTime()))
+
+    </script>
+</body>
+</html>

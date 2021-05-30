@@ -1,0 +1,105 @@
+<!--
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: wangmiao
+ * @Date: 2021-02-08 15:27:01
+ * @LastEditors: wangmiao
+ * @LastEditTime: 2021-02-08 16:28:08
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+
+
+
+        /**
+ *  首字母大写
+ * @param {String} string 
+ */
+function firstCharAtToUpperCase(string){
+	if(string=='' && typeof string !== 'string') return string
+	let frisrChart = string.charAt(0);
+	if(isUpperCase(frisrChart)) {
+	  return string
+	}else {
+	  return frisrChart.toUpperCase() + string.slice(1)
+	}
+  }
+  
+  /**
+   *  首字母小写
+   * @param {String} string 
+   */
+  function firstCharAtToLowerCase  (string){
+	if(string =='' && typeof string !== 'string') return string
+	let frisrChart = string.charAt(0);
+	if(isUpperCase(frisrChart)) {
+	  return frisrChart.toLocaleLowerCase() + string.slice(1)
+	}else {
+	  return string
+	}
+  }
+  
+  /**
+   * 判断字母是否大写
+   * @param {String} charAt 
+   */
+  function isUpperCase (charAt){
+	  let reg = /^[A-Z]+$/;
+	  return reg.test(charAt)
+  }
+  
+  /**
+   * 给对象添加大、小写字母开头的属性
+   * @param {Object} object 
+   */
+
+
+  function transformPlainObject(object){
+	if(Object.prototype.toString.call(object) === "[object Object]"){
+	  let obj = {}
+	  Object.keys(object).forEach(v=>{
+		if(isUpperCase(v.charAt(0))) {
+		  obj[firstCharAtToLowerCase(v)] = object[v]
+		} else {
+		  obj[firstCharAtToUpperCase(v)] = object[v]
+		}
+	  })
+	  return {...object,...obj}
+	} else {
+	  return object
+	}
+  }
+
+
+  let data = {"ResponseResult":{"IsSuccess":"1","Message":"获取成功"},"canUpdateMedicalRecords":true,"noUpdateMedicalRecords":false,"phoneQR":"/Data/TwoDimImage?data=07dea217-29d4-48d1-ad62-30894230cb86","serviceType":0,"doctorId":"5bb70f8b-91a5-4171-a519-3d11dc883a11","talkLst":[{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"85ab0fd3-fc19-4e8c-8d17-68188c496a38","talkerName":null,"talkerSex":"女","talkerAvatar":null,"talkerTime":1612749052003,"talkerContent":"姓名：邹眉\u003cbr/\u003e性别：女\u003cbr/\u003e年龄：27岁\u003cbr/\u003e卡号：132002103165168\u003cbr/\u003e病症：1型糖尿病伴有昏迷\u003cbr/\u003e","messageType":"content","userDiv":"other","createUser":null,"deptID":null},{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"f05fc2d3-36ae-4a69-abfc-d269b8bccb07","talkerName":null,"talkerSex":"女","talkerAvatar":null,"talkerTime":1612749052013,"talkerContent":{"content":"{\"cardType\":\"99\",\"detail\":\"{\\\"messageType\\\":\\\"1\\\",\\\"description\\\":\\\"高血压\\\",\\\"image\\\":null,\\\"diagnosis\\\":\\\"\\\",\\\"diagnosticInstructionsDetail\\\":\\\"\\\",\\\"prescriptionDrugList\\\":\\\"\\\",\\\"commonContent\\\":\\\"\\\",\\\"url\\\":\\\"\\\",\\\"demands\\\":null,\\\"medicalRecord\\\":\\\"{\\\\\\\"CurrentMedicalHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"PastMedicalHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"AllergyHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"Physical\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"DealWith\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"续方配药\\\\\\\"}\\\"}\"}","status":1},"messageType":"card","userDiv":"other","createUser":null,"deptID":null},{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"2d7b242f-a80d-487d-bab5-52118d60cc37","talkerName":null,"talkerSex":"女","talkerAvatar":null,"talkerTime":1612749052703,"talkerContent":{"content":"{\"cardType\":\"99\",\"detail\":\"{\\\"messageType\\\":\\\"1\\\",\\\"description\\\":\\\"科室:高血压门诊\\\\n主诉:高血压\\\\n现病史:无\\\\n既往史:无\\\\n过敏史:无\\\\n个人史:无\\\\n家族史:无\\\\n婚育史:有\\\\n月经史:无\\\",\\\"image\\\":null,\\\"diagnosis\\\":\\\"\\\",\\\"diagnosticInstructionsDetail\\\":\\\"\\\",\\\"prescriptionDrugList\\\":\\\"\\\",\\\"commonContent\\\":\\\"\\\",\\\"url\\\":\\\"\\\",\\\"demands\\\":null,\\\"medicalRecord\\\":\\\"{\\\\\\\"CurrentMedicalHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"PastMedicalHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"AllergyHistory\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"Physical\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"DealWith\\\\\\\":\\\\\\\"无\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"续方配药\\\\\\\"}\\\"}\"}","status":1},"messageType":"card","userDiv":"other","createUser":null,"deptID":null},{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"dd032245-3ace-4596-b0f6-396f51066298","talkerName":"钱辉","talkerSex":"女","talkerAvatar":"","talkerTime":1612760598290,"talkerContent":"{\"DetailId\":\"10b4b9e1-29ce-4283-8f10-6fe7d445f95a\",\"Type\":\"2\"}","messageType":"notice","userDiv":"self","createUser":null,"deptID":null},{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"d4f60858-ec19-45c9-ba96-35549e8258a7","talkerName":"钱辉","talkerSex":"女","talkerAvatar":"","talkerTime":1612760702853,"talkerContent":"{\"DetailId\":\"da076fcf-42b8-4018-af41-b8ff578ab90c\",\"Type\":\"2\"}","messageType":"notice","userDiv":"self","createUser":null,"deptID":null},{"talkMainID":"07dea217-29d4-48d1-ad62-30894230cb86","talkMainStatus":"已回复","talkDetailID":"ea567555-0523-494d-8aef-10ec90123254","talkerName":"钱辉","talkerSex":"女","talkerAvatar":"","talkerTime":1612760702943,"talkerContent":{"content":"{\"CardId\":\"CD20C241-9D13-4230-9778-792C00FF4196\",\"id\":\"6c494150-cbd9-4b1f-9059-09f099f5c253\",\"CardType\":\"9\",\"content\":{\"CardId\":\"CD20C241-9D13-4230-9778-792C00FF4196\",\"id\":\"6c494150-cbd9-4b1f-9059-09f099f5c253\",\"CardType\":\"9\",\"cheifcomplaint\":\"主诉\",\"currentmedical\":\"现病史\",\"pastmedical\":\"既往史\",\"physical\":\"体格检查\",\"allergyHistory\":\"过敏史\",\"wenshudiagnosis\":\"1型糖尿病伴有昏迷\",\"dealWith\":\"处理\",\"prescsriptionsummary\":\"[{\\\"Sort\\\":1,\\\"MedicineName\\\":\\\"洛汀新(盐酸贝那普利片)薄膜衣片\\\",\\\"Spec\\\":\\\"10mg*14片/盒\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"盒\\\",\\\"Usage\\\":\\\"口服\\\"},{\\\"Sort\\\":2,\\\"MedicineName\\\":\\\"富马酸喹硫平片(思瑞康)\\\",\\\"Spec\\\":\\\"25mg*20片/盒\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"盒\\\",\\\"Usage\\\":\\\"口服\\\"},{\\\"Sort\\\":1,\\\"MedicineName\\\":\\\"代文(缬沙坦胶囊)\\\",\\\"Spec\\\":\\\"80mg*7粒/盒\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"盒\\\",\\\"Usage\\\":\\\"口服\\\"},{\\\"Sort\\\":2,\\\"MedicineName\\\":\\\"瑞泰(雷米普利片)\\\",\\\"Spec\\\":\\\"5mg*7片/盒\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"盒\\\",\\\"Usage\\\":\\\"口服\\\"},{\\\"Sort\\\":1,\\\"MedicineName\\\":\\\"110降压片(盐酸可乐定片)\\\",\\\"Spec\\\":\\\"75ug*100片/瓶\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"瓶\\\",\\\"Usage\\\":\\\"口服\\\"},{\\\"Sort\\\":1,\\\"MedicineName\\\":\\\"雅施达(培哚普利叔丁胺片)\\\",\\\"Spec\\\":\\\"8mg*15片/盒\\\",\\\"BuyCnt\\\":1.00,\\\"PackingUnit\\\":\\\"盒\\\",\\\"Usage\\\":\\\"口服\\\"}]\"}}","status":1},"messageType":"card","userDiv":"self","createUser":null,"deptID":null}],"talkBeginDate":"2021-02-08 09:50:52","talkEndDate":"","talkUserInfo":{"PatientName":"邹眉","sex":"女","deptName":"门诊高血压","docName":"钱辉","tel":"","telBase64":"","birthDate":"1993-02-17","age":"27岁","DiseaseName":"1型糖尿病伴有昏迷","AskContent":"高血压","ServiceName":"在线复诊","IsRevisit":1,"onlinePrescriptionVersion":"3.0","isHeadDoctor":true,"idcard":"362321199302171626","cardNo":"132002103165168","image":"","bookingNumber":"","ddiagnosisDay":"2021/2/8 15:00:00","registDate":"2021/2/8 9:49:30","demands":""},"isCollect":true,"useNewMedicalRecords":false,"doctorAvatar":"","talkHistoryLst":[],"scheduTime":"","useOtherVersionOutpatient":false,"maxTalkMinute":"15","hasPassSencond":19738,"warnSecond":"120","hasDoneAskMainOverTime":false,"isNeedControlAskMainOverTime":true,"isShowTalkPassTime":true,"isShowExtendButton":true,"overTime":false,"showReVisit":false,"canAddToMedicalRecord":false,"OutRecordNo":"21020300290007"}    
+for (var i = 0; i < data.talkLst.length; i++) {
+	if (data.talkLst[i].messageType == "card") {
+		var cinfo = JSON.parse(data.talkLst[i].talkerContent.content);
+		if(cinfo.CardType){
+			cinfo.CardType = cinfo.CardType;
+		}
+		if(cinfo.cardType){
+			cinfo.CardType = cinfo.cardType;
+		}
+
+		// console.log(cinfo)
+		let result = {};
+		if(cinfo.CardType=="99"){
+			let details = JSON.parse(cinfo.detail);
+			result = transformPlainObject(details)
+		}
+		console.log(result)
+	}
+}
+    </script>
+</body>
+</html>
